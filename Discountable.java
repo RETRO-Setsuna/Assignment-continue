@@ -1,0 +1,3 @@
+interface Discountable {
+    double calculateDiscountPrice();
+}
