@@ -2,6 +2,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
@@ -38,7 +39,7 @@ public class AppView {
 
     private void createAndLayoutControls() {
 
-        Label title = new Label("HD Choco Shop");
+        Label title = new Label("Welcome to HD Choco Shop!!!!");
 
         customerBtn = new Button("Customer");
         staffBtn = new Button("Staff");
@@ -56,42 +57,41 @@ public class AppView {
 
     private void showCustomerMenu() {
 
-        Label title = new Label("CUSTOMER");
+        Label title = new Label("Customer Sign In");
 
+        Label usernameLabel = new Label("Username:");
+        TextField usernameField = new TextField();
+
+        Label passwordLabel = new Label("Password:");
+        TextField passwordField = new TextField();
+
+        Button loginBtn = new Button("Log In");
         Button signUpBtn = new Button("Sign Up");
-        Button signInBtn = new Button("Sign In");
-
-        Button searchBtn = new Button("Search");
-        Button sortBtn = new Button("Sort");
-
-        Button filterBtn = new Button("Filter");
-        Button buildChocolateBtn = new Button("Build Chocolate");
-
-        Button cartBtn = new Button("My Cart");
         Button returnBtn = new Button("Return");
 
-        signUpBtn.setPrefSize(180, 50);
-        signInBtn.setPrefSize(180, 50);
-        searchBtn.setPrefSize(180, 50);
-        sortBtn.setPrefSize(180, 50);
-        filterBtn.setPrefSize(180, 50);
-        buildChocolateBtn.setPrefSize(180, 50);
-        cartBtn.setPrefSize(180, 50);
-        returnBtn.setPrefSize(180, 50);
+        usernameField.setPrefWidth(200);
+        passwordField.setPrefWidth(200);
 
-        HBox accountRow = new HBox(20, signUpBtn, signInBtn);
-        HBox searchRow = new HBox(20, searchBtn, sortBtn);
-        HBox chocolateRow = new HBox(20, filterBtn, buildChocolateBtn);
-        HBox cartRow = new HBox(20, cartBtn, returnBtn);
+        loginBtn.setPrefSize(100, 30);
+        signUpBtn.setPrefSize(100, 30);
+        returnBtn.setPrefSize(100, 30);
 
-        accountRow.setAlignment(Pos.CENTER);
-        searchRow.setAlignment(Pos.CENTER);
-        chocolateRow.setAlignment(Pos.CENTER);
-        cartRow.setAlignment(Pos.CENTER);
+        HBox usernameRow = new HBox(10, usernameLabel, usernameField);
+        HBox passwordRow = new HBox(10, passwordLabel, passwordField);
+        HBox buttonRow = new HBox(10, loginBtn, signUpBtn);
+
+        usernameRow.setAlignment(Pos.CENTER);
+        passwordRow.setAlignment(Pos.CENTER);
+        buttonRow.setAlignment(Pos.CENTER);
 
         view.getChildren().clear();
 
-        view.getChildren().addAll(title, accountRow, searchRow, chocolateRow, cartRow);
+        view.getChildren().addAll(
+                title,
+                usernameRow,
+                passwordRow,
+                buttonRow,
+                returnBtn);
     }
 
 }
