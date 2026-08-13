@@ -12,4 +12,8 @@ public class AppController {
     public boolean signUp(String username, String password) {
         return model.signUp(username, password);
     }
+
+    public Chocolate searchChocolate(String name) {
+        return model.searchChocolate(name);
+    }
 }

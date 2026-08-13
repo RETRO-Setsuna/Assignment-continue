@@ -8,6 +8,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class AppView {
 
@@ -20,6 +26,7 @@ public class AppView {
     private AppController controller;
     private AppModel model;
     private Stage primaryStage;
+    private TableView<Chocolate> chocolateView;
 
     public AppView(AppController controller, AppModel model, Stage primaryStage) {
         this.controller = controller;
@@ -177,23 +184,90 @@ public class AppView {
         Label title = new Label("Customer Menu");
 
         Button searchBtn = new Button("Search");
-
         Button filterBtn = new Button("Filter");
         Button buildChocolateBtn = new Button("Build Chocolate");
         Button cartBtn = new Button("My Cart");
         Button logoutBtn = new Button("Log Out");
+        Button showAllBtn = new Button("Show All");
 
-        HBox firstRow = new HBox(10, searchBtn);
-        HBox secondRow = new HBox(10, filterBtn, buildChocolateBtn);
-        HBox thirdRow = new HBox(10, cartBtn, logoutBtn);
+        HBox menuRow = new HBox(10, searchBtn, filterBtn, buildChocolateBtn, cartBtn, showAllBtn);
+        menuRow.setAlignment(Pos.CENTER);
 
-        firstRow.setAlignment(Pos.CENTER);
-        secondRow.setAlignment(Pos.CENTER);
-        thirdRow.setAlignment(Pos.CENTER);
+        chocolateView = new TableView<>();
+        chocolateView.setItems(model.chocolatesProperty());
+
+        TableColumn<Chocolate, String> idCol = new TableColumn<>("ID");
+        TableColumn<Chocolate, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Chocolate, Types> typeCol = new TableColumn<>("Type");
+        TableColumn<Chocolate, Size> sizeCol = new TableColumn<>("Size");
+
+        idCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductId()));
+        nameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        typeCol.setCellValueFactory(cellData -> new SimpleObjectProperty<Types>(cellData.getValue().getType()));
+        sizeCol.setCellValueFactory(cellData -> new SimpleObjectProperty<Size>(cellData.getValue().getSize()));
+
+        chocolateView.getColumns().addAll(idCol, nameCol, typeCol, sizeCol);
 
         logoutBtn.setOnAction(event -> showCustomerMenu());
+        searchBtn.setOnAction(event -> createSearchForm());
+        showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocolatesProperty()));
 
         view.getChildren().clear();
-        view.getChildren().addAll(title, firstRow, secondRow, thirdRow);
+        view.getChildren().addAll(title, menuRow, chocolateView, logoutBtn);
+    }
+
+    private void createSearchForm() {
+
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField searchField = new TextField();
+        searchField.setPromptText("Enter chocolate name");
+
+        HBox searchRow = new HBox(5, new Label("Chocolate Name:"), searchField);
+        searchRow.setAlignment(Pos.CENTER);
+
+        Label addingLabel = new Label("Please enter the exact Chocolate name. ex) Dark Chocolate.");
+        Label messageLabel = new Label("");
+
+        Button searchBtn = new Button("Search");
+        Button cancelBtn = new Button("Cancel");
+
+        searchBtn.setOnAction(event -> {
+            String name = searchField.getText().trim();
+
+            if (name.isEmpty()) {
+                messageLabel.setText("Please enter a Chocolate name");
+            } else {
+                Chocolate chocolate = controller.searchChocolate(name);
+
+                if (chocolate != null) {
+
+                    ObservableList<Chocolate> searchResult = FXCollections.observableArrayList();
+                    searchResult.add(chocolate);
+
+                    chocolateView.setItems(searchResult);
+
+                    stage.close();
+
+                } else {
+                    messageLabel.setText("Chocolate not found");
+                }
+            }
+        });
+
+        cancelBtn.setOnAction(event -> stage.close());
+
+        HBox buttonRow = new HBox(5, searchBtn, cancelBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox root = new VBox(5, addingLabel, searchRow, messageLabel, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 350, 150);
+
+        stage.setScene(scene);
+        stage.show();
     }
 }

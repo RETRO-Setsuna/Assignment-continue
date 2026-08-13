@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class AppModel {
 
     private Inventory inventory;
@@ -8,13 +11,18 @@ public class AppModel {
     private boolean memberSignedIn;
     private ListOfUsers users;
 
+    private ObservableList<Chocolate> chocolates;
+
     public AppModel() {
         this.inventory = new Inventory();
         this.shopping = new Shopping();
         this.memberSignedIn = false;
+
         this.users = new ListOfUsers(
                 new HashMap<Usernames, Passwords>(),
                 new ArrayList<Users>());
+
+        this.chocolates = FXCollections.observableArrayList();
     }
 
     public Inventory getInventory() {
@@ -23,6 +31,15 @@ public class AppModel {
 
     public Shopping getShopping() {
         return shopping;
+    }
+
+    public ObservableList<Chocolate> chocolatesProperty() {
+        return chocolates;
+    }
+
+    public void addChocolate(Chocolate chocolate) {
+        inventory.addChocolate(chocolate);
+        chocolates.add(chocolate);
     }
 
     public boolean isMemberSignedIn() {
@@ -44,5 +61,9 @@ public class AppModel {
 
     public boolean signUp(String username, String password) {
         return users.signUp(username, password);
+    }
+
+    public Chocolate searchChocolate(String name) {
+        return inventory.searchChocolateByName(name);
     }
 }
