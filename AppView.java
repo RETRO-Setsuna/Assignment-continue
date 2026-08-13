@@ -233,7 +233,8 @@ public class AppView {
         HBox searchRow = new HBox(5, new Label("Chocolate Name:"), searchField);
         searchRow.setAlignment(Pos.CENTER);
 
-        Label addingLabel = new Label("Please enter the exact Chocolate name. ex) Dark Chocolate.");
+        Label addingLabel = new Label("Please enter the exact Chocolate name (Search is case-sensitive)");
+        Label adding2Label = new Label("Please enter the exact name (ex) Dark Chocolate).");
         Label messageLabel = new Label("");
 
         Button searchBtn = new Button("Search");
@@ -267,7 +268,7 @@ public class AppView {
         HBox buttonRow = new HBox(5, searchBtn, cancelBtn);
         buttonRow.setAlignment(Pos.CENTER);
 
-        VBox root = new VBox(5, addingLabel, searchRow, messageLabel, buttonRow);
+        VBox root = new VBox(5, addingLabel, adding2Label, searchRow, messageLabel, buttonRow);
         root.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(root, 350, 150);
