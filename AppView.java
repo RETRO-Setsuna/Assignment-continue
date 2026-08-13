@@ -829,6 +829,7 @@ public class AppView {
         stage.initModality(Modality.APPLICATION_MODAL);
 
         Label title = new Label("My Cart");
+        Label totalLabel = new Label("Total: $ " + controller.calculateTotal());
 
         TableView<Chocolate> cartView = new TableView<>();
 
@@ -848,7 +849,9 @@ public class AppView {
         cartList.addAll(controller.getCart());
         cartView.setItems(cartList);
 
-        Label totalLabel = new Label("Total: $ " + controller.calculateTotal());
+        Label totalpLabel = new Label("Total: $ " + controller.calculateTotal());
+        Label discountLabel = new Label("Member Discount: 10%");
+        Label finalTotalLabel = new Label("Final Total: $ " + controller.calculateFinalTotal());
 
         Button removeBtn = new Button("Remove");
         Button checkoutBtn = new Button("Checkout");
@@ -860,7 +863,7 @@ public class AppView {
             if (selectedChocolate != null) {
                 controller.removeFromCart(selectedChocolate);
                 cartList.remove(selectedChocolate);
-                totalLabel.setText("Total: $ " + controller.calculateTotal());
+                totalpLabel.setText("Total: $ " + controller.calculateTotal());
             }
         });
 
@@ -870,8 +873,7 @@ public class AppView {
         HBox buttonRow = new HBox(5, removeBtn, checkoutBtn, closeBtn);
         buttonRow.setAlignment(Pos.CENTER);
 
-        VBox root = new VBox(10, title, cartView, totalLabel, buttonRow);
-        root.setAlignment(Pos.CENTER);
+        VBox root = new VBox(10, title, cartView, totalpLabel, discountLabel, finalTotalLabel, buttonRow);
 
         Scene scene = new Scene(root, 500, 400);
         stage.setScene(scene);

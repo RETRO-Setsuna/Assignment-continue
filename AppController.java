@@ -63,4 +63,8 @@ public class AppController {
     public OrderStatus getOrderStatus() {
         return model.getOrderStatus();
     }
+
+    public double calculateFinalTotal() {
+        return model.calculateFinalTotal();
+    }
 }

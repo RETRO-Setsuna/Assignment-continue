@@ -131,4 +131,14 @@ public class AppModel {
     public OrderStatus getOrderStatus() {
         return shopping.getOrderStatus();
     }
+
+    public double calculateFinalTotal() {
+        double total = shopping.calculateTotal();
+
+        if (memberSignedIn) {
+            return total * 0.9;
+        }
+
+        return total;
+    }
 }
