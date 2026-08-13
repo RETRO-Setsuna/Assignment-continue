@@ -3,7 +3,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -14,6 +16,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
 public class AppView {
 
@@ -211,6 +215,7 @@ public class AppView {
         logoutBtn.setOnAction(event -> showCustomerMenu());
         searchBtn.setOnAction(event -> createSearchForm());
         showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocolatesProperty()));
+        filterBtn.setOnAction(event -> createFilterForm());
 
         view.getChildren().clear();
         view.getChildren().addAll(title, menuRow, chocolateView, logoutBtn);
@@ -266,6 +271,249 @@ public class AppView {
         root.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(root, 350, 150);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void createFilterForm() {
+
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        Label title = new Label("Filter Chocolate");
+
+        Button typeBtn = new Button("Filter by Type");
+        Button sizeBtn = new Button("Filter by Size");
+        Button sweetnessBtn = new Button("Filter by Sweetness");
+        Button cancelBtn = new Button("Cancel");
+
+        cancelBtn.setOnAction(event -> stage.close());
+        typeBtn.setOnAction(event -> createTypeFilterForm(stage));
+        sizeBtn.setOnAction(event -> createSizeFilterForm(stage));
+        sweetnessBtn.setOnAction(event -> createSweetnessFilterForm(stage));
+
+        VBox root = new VBox(10, title, typeBtn, sizeBtn, sweetnessBtn, cancelBtn);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void createTypeFilterForm(Stage filterStage) {
+
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        Label title = new Label("Filter by Type");
+
+        ToggleGroup typeGroup = new ToggleGroup();
+
+        RadioButton whiteBtn = new RadioButton("White Chocolate");
+        whiteBtn.setToggleGroup(typeGroup);
+
+        RadioButton darkBtn = new RadioButton("Dark Chocolate");
+        darkBtn.setToggleGroup(typeGroup);
+
+        RadioButton milkBtn = new RadioButton("Milk Chocolate");
+        milkBtn.setToggleGroup(typeGroup);
+
+        RadioButton cookieBtn = new RadioButton("Cookie and Cream");
+        cookieBtn.setToggleGroup(typeGroup);
+
+        VBox typeRow = new VBox(5, whiteBtn, darkBtn, milkBtn, cookieBtn);
+        typeRow.setAlignment(Pos.CENTER);
+
+        Label messageLabel = new Label("");
+
+        Button applyBtn = new Button("Apply");
+        Button cancelBtn = new Button("Cancel");
+
+        cancelBtn.setOnAction(event -> stage.close());
+        applyBtn.setOnAction(event -> {
+
+            Types type = null;
+
+            if (whiteBtn.isSelected()) {
+                type = Types.WHITE_CHOCOLATE;
+            } else if (darkBtn.isSelected()) {
+                type = Types.DARK_CHOCOLATE;
+            } else if (milkBtn.isSelected()) {
+                type = Types.MILK_CHOCOLATE;
+            } else if (cookieBtn.isSelected()) {
+                type = Types.COOKIE_AND_CREAM;
+            }
+
+            if (type == null) {
+                messageLabel.setText("Please select a chocolate type");
+            } else {
+                ObservableList<Chocolate> filteredList = FXCollections.observableArrayList();
+                filteredList.addAll(controller.filterByType(type));
+
+                chocolateView.setItems(filteredList);
+
+                stage.close();
+                filterStage.close();
+            }
+        });
+        HBox buttonRow = new HBox(5, applyBtn, cancelBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox root = new VBox(10, title, typeRow, messageLabel, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void createSizeFilterForm(Stage filterStage) {
+
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        Label title = new Label("Filter by Size");
+
+        ToggleGroup sizeGroup = new ToggleGroup();
+
+        RadioButton smallBtn = new RadioButton("S");
+        smallBtn.setToggleGroup(sizeGroup);
+
+        RadioButton mediumBtn = new RadioButton("M");
+        mediumBtn.setToggleGroup(sizeGroup);
+
+        RadioButton largeBtn = new RadioButton("L");
+        largeBtn.setToggleGroup(sizeGroup);
+
+        RadioButton extraLargeBtn = new RadioButton("XL");
+        extraLargeBtn.setToggleGroup(sizeGroup);
+
+        VBox sizeRow = new VBox(5, smallBtn, mediumBtn, largeBtn, extraLargeBtn);
+        sizeRow.setAlignment(Pos.CENTER);
+
+        Label messageLabel = new Label("");
+
+        Button applyBtn = new Button("Apply");
+        Button cancelBtn = new Button("Cancel");
+
+        applyBtn.setOnAction(event -> {
+
+            Size size = null;
+
+            if (smallBtn.isSelected()) {
+                size = Size.S;
+            } else if (mediumBtn.isSelected()) {
+                size = Size.M;
+            } else if (largeBtn.isSelected()) {
+                size = Size.L;
+            } else if (extraLargeBtn.isSelected()) {
+                size = Size.XL;
+            }
+
+            if (size == null) {
+                messageLabel.setText("Please select a size");
+            } else {
+                ObservableList<Chocolate> filteredList = FXCollections.observableArrayList();
+                filteredList.addAll(controller.filterBySize(size));
+
+                chocolateView.setItems(filteredList);
+
+                stage.close();
+                filterStage.close();
+            }
+        });
+
+        cancelBtn.setOnAction(event -> stage.close());
+
+        HBox buttonRow = new HBox(5, applyBtn, cancelBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox root = new VBox(10, title, sizeRow, messageLabel, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void createSweetnessFilterForm(Stage filterStage) {
+
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        Label title = new Label("Filter by Sweetness");
+
+        ToggleGroup sweetnessGroup = new ToggleGroup();
+
+        RadioButton zeroBtn = new RadioButton("0%");
+        zeroBtn.setToggleGroup(sweetnessGroup);
+
+        RadioButton twentyFiveBtn = new RadioButton("25%");
+        twentyFiveBtn.setToggleGroup(sweetnessGroup);
+
+        RadioButton fiftyBtn = new RadioButton("50%");
+        fiftyBtn.setToggleGroup(sweetnessGroup);
+
+        RadioButton seventyFiveBtn = new RadioButton("75%");
+        seventyFiveBtn.setToggleGroup(sweetnessGroup);
+
+        RadioButton hundredBtn = new RadioButton("100%");
+        hundredBtn.setToggleGroup(sweetnessGroup);
+
+        VBox sweetnessRow = new VBox(5, zeroBtn, twentyFiveBtn, fiftyBtn, seventyFiveBtn, hundredBtn);
+        sweetnessRow.setAlignment(Pos.CENTER);
+
+        Label messageLabel = new Label("");
+
+        Button applyBtn = new Button("Apply");
+        Button cancelBtn = new Button("Cancel");
+
+        applyBtn.setOnAction(event -> {
+
+            Sweetness sweetness = null;
+
+            if (zeroBtn.isSelected()) {
+                sweetness = Sweetness.ZERO;
+            } else if (twentyFiveBtn.isSelected()) {
+                sweetness = Sweetness.TWENTY_FIVE;
+            } else if (fiftyBtn.isSelected()) {
+                sweetness = Sweetness.FIFTY;
+            } else if (seventyFiveBtn.isSelected()) {
+                sweetness = Sweetness.SEVENTY_FIVE;
+            } else if (hundredBtn.isSelected()) {
+                sweetness = Sweetness.HUNDRED;
+            }
+
+            if (sweetness == null) {
+                messageLabel.setText("Please select sweetness");
+            } else {
+                ObservableList<Chocolate> filteredList = FXCollections.observableArrayList();
+                filteredList.addAll(controller.filterBySweetness(sweetness));
+
+                chocolateView.setItems(filteredList);
+
+                stage.close();
+                filterStage.close();
+            }
+        });
+
+        cancelBtn.setOnAction(event -> stage.close());
+
+        HBox buttonRow = new HBox(5, applyBtn, cancelBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox root = new VBox(10, title, sweetnessRow, messageLabel, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 300, 280);
 
         stage.setScene(scene);
         stage.show();

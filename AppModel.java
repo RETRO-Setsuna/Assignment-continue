@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,5 +66,17 @@ public class AppModel {
 
     public Chocolate searchChocolate(String name) {
         return inventory.searchChocolateByName(name);
+    }
+
+    public List<Chocolate> filterByType(Types type) {
+        return inventory.filterByType(type);
+    }
+
+    public List<Chocolate> filterBySize(Size size) {
+        return inventory.filterBySize(size);
+    }
+
+    public List<Chocolate> filterBySweetness(Sweetness sweetness) {
+        return inventory.filterBySweetness(sweetness);
     }
 }

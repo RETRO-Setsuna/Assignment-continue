@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class AppController {
     private AppModel model;
 
@@ -15,5 +17,17 @@ public class AppController {
 
     public Chocolate searchChocolate(String name) {
         return model.searchChocolate(name);
+    }
+
+    public List<Chocolate> filterByType(Types type) {
+        return model.filterByType(type);
+    }
+
+    public List<Chocolate> filterBySize(Size size) {
+        return model.filterBySize(size);
+    }
+
+    public List<Chocolate> filterBySweetness(Sweetness sweetness) {
+        return model.filterBySweetness(sweetness);
     }
 }
