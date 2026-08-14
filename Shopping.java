@@ -60,9 +60,9 @@ class Shopping {
         System.out.println("Chocolate not found.");
     }
 
-    void checkout(boolean memberSignedIn, PaymentMethod paymentMethod, Delivery delivery) {
-
+    void checkout(boolean memberSignedIn) {
         if (cart.isEmpty()) {
+            System.out.println("Your cart is empty.");
             return;
         }
 
@@ -80,15 +80,40 @@ class Shopping {
             discount = originalTotal - total;
         }
 
+        PaymentMethod paymentMethod = choosePaymentMethod();
+        Delivery delivery = chooseDelivery();
+
         orderStatus = OrderStatus.PENDING;
 
-        currentOrder.clear();
+        System.out.println();
+        System.out.println("Checkout Summary");
 
+        if (memberSignedIn) {
+            System.out.println("Original Price: $ " + originalTotal);
+            System.out.println("Member Discount (10%): $ " + discount);
+            System.out.println("Total Price: $ " + total);
+
+        } else {
+            System.out.println("Membership Discount: Not Applied");
+            System.out.println("Sign in as a member next time to receive a 10% discount.");
+            System.out.println("Total Price: $ " + total);
+
+        }
+
+        System.out.println();
+        System.out.println("Payment Method: " + paymentMethod);
+        System.out.println("Delivery Option: " + delivery);
+
+        System.out.println();
+        System.out.println("Order placed successfully.");
+
+        currentOrder.clear();
         for (Chocolate chocolate : cart) {
             currentOrder.add(chocolate);
         }
 
         cart.clear();
+
     }
 
     void viewOrderStatus() {
@@ -177,18 +202,6 @@ class Shopping {
 
         orderStatus = newStatus;
         System.out.println("Order status updated to: " + orderStatus);
-    }
-
-    public List<Chocolate> getCart() {
-        return cart;
-    }
-
-    public List<Chocolate> getCurrentOrder() {
-        return currentOrder;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
     }
 
     @Override
