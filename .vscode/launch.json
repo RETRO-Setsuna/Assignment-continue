@@ -1,20 +1,13 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "java",
-      "name": "AppMain",
-      "request": "launch",
-      "mainClass": "AppMain",
-      "projectName": "Assignment-continue_d3f3337d"
-    },
-    {
-      "type": "java",
-      "name": "AppMain",
-      "request": "launch",
-      "mainClass": "AppMain",
-      "projectName": "Assignment-continue_5536fa74",
-      "vmArgs": "--module-path \"C:\\Users\\hyung\\OneDrive\\바탕 화면\\UTS 2 2026\\Programming 2\\openjfx-21.0.12_windows-x64_bin-sdk\\javafx-sdk-21.0.12\\lib\" --add-modules javafx.controls,javafx.fxml"
-    }
-  ]
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "AppMain",
+            "request": "launch",
+            "mainClass": "AppMain",
+            "projectName": "Assignment-continue_5536fa74",
+            "vmArgs": "--module-path \"C:\\Users\\hyung\\OneDrive\\바탕 화면\\UTS 2 2026\\Programming 2\\openjfx-21.0.12_windows-x64_bin-sdk\\javafx-sdk-21.0.12\\lib\" --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
 }

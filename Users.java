@@ -102,29 +102,23 @@ class ListOfUsers {
         this.listUsers = listOfUsers;
     }
 
-    public void signUp(String userNameInput, String passwordInput) {
+    public boolean signUp(String userNameInput, String passwordInput) {
+
         Usernames username = new Usernames(userNameInput);
         Passwords password = new Passwords(passwordInput);
 
-        boolean passwordInvalid = true;
-
-        while (passwordInvalid == true) {
-            try {
-                if (password.passwordChecker()) {
-                    break;
-                } else {
-                    System.out.print("Please try again: ");
-                    password.setUserTypes(In.nextLine());
-                }
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage() + "Make sure password is 8 character long");
-                passwordInvalid = false;
-            }
+        if (userExists(userNameInput)) {
+            return false;
         }
+
+        if (!password.passwordChecker()) {
+            return false;
+        }
+
         users.put(username, password);
         listUsers.add(new Users(username, password));
-        System.out.println("Your account has been created");
 
+        return true;
     }
 
     public boolean signIn(String accountName, String accountPassword) {
