@@ -94,4 +94,10 @@ public class AppView {
         view.getChildren().addAll(title, accountRow, searchRow, chocolateRow, cartRow);
     }
 
+    private void showStaffMenu() {
+
+        Label title = new Label("Staff");
+
+    }
+
 }
