@@ -249,8 +249,8 @@ public class AppView {
         HBox searchRow = new HBox(5, new Label("Chocolate Name:"), searchField);
         searchRow.setAlignment(Pos.CENTER);
 
-        Label addingLabel = new Label("Please enter the exact Chocolate name");
-        Label adding2Label = new Label("case-sensitive! (ex) Dark Chocolate).");
+        Label addingLabel = new Label("Please enter the exact chocolate name");
+        Label adding2Label = new Label("case-sensitive!! (ex) Dark Chocolate).");
         Label messageLabel = new Label("");
 
         Button searchBtn = new Button("Search");
