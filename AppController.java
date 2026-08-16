@@ -67,4 +67,16 @@ public class AppController {
     public double calculateFinalTotal() {
         return model.calculateFinalTotal();
     }
+
+    public void updateChoco(Chocolate c, int index) {
+        this.model.updateChoco(c, index);
+    }
+
+    public void addChoc(Chocolate c) {
+        this.model.addChoc(c);
+    }
+
+    public void removeChoc(int c) {
+        this.model.removeChoc(c);
+    }
 }

@@ -148,10 +148,6 @@ public class AppModel {
         return this.chocolates;
     }
 
-    public void addChoc(Chocolate c) {
-        chocshop.insertChocolate(c);
-    }
-
     public void updateChoco(Chocolate c, int index) {
         this.chocolates.set(index, c);
     }

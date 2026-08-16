@@ -256,6 +256,12 @@ public class AppView {
         this.addChcoclate = new Button("Add Chocolate");
         this.addChcoclate.setOnAction(event -> AddChocPanel());
         this.removeChocolate = new Button("Remove Chocolate");
+        this.removeChocolate.setOnAction(event -> {
+            int index = this.chocoView.getSelectionModel().getSelectedIndex();
+            if (index != -1) {
+                this.controller.removeChoc(index);
+            }
+        });
         this.updateChocolate = new Button("Edit Chocolate");
         this.updateChocolate.setOnAction(event -> {
             int i = this.chocoView.getSelectionModel().getSelectedIndex();
@@ -279,13 +285,15 @@ public class AppView {
         TextField priceField = new TextField();
 
         nameField.setPromptText("Enter Chocolate Name");
-        HBox nameRow = new HBox(5, new Label("Name:"), nameField);
-        nameField.setAlignment(Pos.CENTER);
         idField.setPromptText(" Enter Chocolate ID");
-        HBox idRow = new HBox(5, new Label("ID: "), idField);
-        idField.setAlignment(Pos.CENTER);
         priceField.setPromptText("Enter price");
+
+        HBox nameRow = new HBox(5, new Label("Name:"), nameField);
+        HBox idRow = new HBox(5, new Label("ID: "), idField);
         HBox priceRow = new HBox(5, new Label("Price:"), priceField);
+
+        idField.setAlignment(Pos.CENTER);
+        nameField.setAlignment(Pos.CENTER);
         priceField.setAlignment(Pos.CENTER);
 
         ToggleGroup sizeGroup = new ToggleGroup();
@@ -421,9 +429,13 @@ public class AppView {
 
             if (!name.isEmpty() && !id.isEmpty() && price != 0) {
                 Chocolate c = new Chocolate(id, name, price, size, sweetnesses, type, filling, toppings);
+                controller.buildChocolate(name, type, size, sweetnesses, filling, toppings);
+                model.addChocolate(c);
+                stage.close();
             }
 
         });
+
         Button cancelBtn = new Button("Cancel");
         cancelBtn.setOnAction(event -> stage.close());
 
@@ -433,7 +445,7 @@ public class AppView {
         VBox root = new VBox(5, nameRow, idRow, priceRow, sizeRow, typeRow, sweetnessesRow, fillRow, topRow, buttonRow);
         root.setAlignment(Pos.CENTER);
 
-        Scene testScene = new Scene(root, 700, 700);
+        Scene testScene = new Scene(root, 500, 500);
         stage.setScene(testScene);
         stage.show();
 
@@ -460,11 +472,11 @@ public class AppView {
         priceField.setPromptText("Enter new price");
         priceField.setText(oldPrice);
 
-        HBox nameRow = new HBox(5, new Label("Name:", nameField));
+        HBox nameRow = new HBox(5, new Label("Name:"), nameField);
         nameField.setAlignment(Pos.CENTER);
         HBox idRow = new HBox(5, new Label("ID: "), idField);
         idField.setAlignment(Pos.CENTER);
-        HBox priceRow = new HBox(5, new Label("Price:", priceField));
+        HBox priceRow = new HBox(5, new Label("Price:"), priceField);
         priceField.setAlignment(Pos.CENTER);
 
         ToggleGroup sizeGroup = new ToggleGroup();
@@ -613,7 +625,9 @@ public class AppView {
             boolean newNameIDAndPriceNotEmpty = !name.isEmpty() && !id.isEmpty() && price != 0;
             if (changeSize || changeType || changeSweetness || changeFilling || changeTopping
                     || newNameIDAndPriceNotEmpty) {
-                Chocolate c = new Chocolate(id, name, price, newSize, newSweetness, newTypes, newFillings, newToppings);
+                Chocolate c = new Chocolate(id, oldName, price, newSize, newSweetness, newTypes, newFillings,
+                        newToppings);
+                controller.updateChoco(c, index);
                 stage.close();
             }
 
@@ -627,7 +641,7 @@ public class AppView {
         VBox root = new VBox(5, nameRow, idRow, priceRow, sizeRow, typeRow, sweetnessesRow, fillRow, topRow, buttonRow);
         root.setAlignment(Pos.CENTER);
 
-        Scene testScene = new Scene(root, 300, 300);
+        Scene testScene = new Scene(root, 500, 500);
         stage.setScene(testScene);
         stage.show();
     }
