@@ -35,7 +35,8 @@ public class AppView {
     private Button removeChocolate;
     private Button updateChocolate;
     private Button removeAllCHocolate;
-    private Button changCustomerStatus;
+    private Button changeOrderStatus;
+    private Button logerBtn;
 
     public AppView(AppController controller, AppModel model, Stage primaryStage) {
         this.controller = controller;
@@ -269,10 +270,19 @@ public class AppView {
                 editingChocPanel(i);
             }
         });
+        this.changeOrderStatus = new Button("Update Customer Order Status");
+        this.changeOrderStatus.setOnAction(event -> staffOrderStatus());
+        this.logerBtn = new Button("Log Out");
+        this.logerBtn.setOnAction(event -> {
+            view.getChildren().clear();
+            createAndLayoutControls();
+        });
 
-        HBox buttonRow = new HBox(5, addChcoclate, removeChocolate, updateChocolate);
+        HBox buttonRow = new HBox(5, addChcoclate, removeChocolate, updateChocolate, changeOrderStatus, logerBtn);
 
+        view.getChildren().clear();
         view.getChildren().addAll(this.chocoView, buttonRow);
+
     }
 
     private void AddChocPanel() {
@@ -644,6 +654,78 @@ public class AppView {
         Scene testScene = new Scene(root, 500, 500);
         stage.setScene(testScene);
         stage.show();
+    }
+
+    private void staffOrderStatus() {
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        Label title = new Label("Customer Order Status");
+        Label StatusLebel = new Label("" + controller.getOrderStatus());
+        Label massgaeLabel = new Label("");
+        Button updateBtn = new Button("Update Status");
+        Button closeBtn = new Button("Close");
+
+        TableView<Chocolate> orderView = new TableView<>();
+
+        TableColumn<Chocolate, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Chocolate, String> idCol = new TableColumn<>("Product ID");
+        TableColumn<Chocolate, String> priceCol = new TableColumn<>("Price");
+
+        nameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        idCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        priceCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+
+        orderView.getColumns().addAll(nameCol, idCol, priceCol);
+        ObservableList<Chocolate> orderList = FXCollections.observableArrayList();
+        orderList.addAll(controller.getCurrentOrder());
+        orderView.setItems(orderList);
+
+        ToggleGroup statusGroup = new ToggleGroup();
+        RadioButton confirmedBtn = new RadioButton("Confirmed");
+        RadioButton prepareBtn = new RadioButton("Preparing");
+        RadioButton readyBtn = new RadioButton("Ready for Pickup");
+        RadioButton deliveryBtn = new RadioButton("Out for Delivery");
+        RadioButton completeBtn = new RadioButton("Complete");
+        confirmedBtn.setToggleGroup(statusGroup);
+        prepareBtn.setToggleGroup(statusGroup);
+        readyBtn.setToggleGroup(statusGroup);
+        deliveryBtn.setToggleGroup(statusGroup);
+        completeBtn.setToggleGroup(statusGroup);
+
+        updateBtn.setOnAction(event -> {
+            OrderStatus newStat;
+
+            if (confirmedBtn.isSelected()) {
+                newStat = OrderStatus.CONFIRMED;
+            } else if (prepareBtn.isSelected()) {
+                newStat = OrderStatus.PREPARING;
+            } else if (readyBtn.isSelected()) {
+                newStat = OrderStatus.READY_FOR_PICKUP;
+            } else if (deliveryBtn.isSelected()) {
+                newStat = OrderStatus.OUT_FOR_DELIVERY;
+            } else {
+                newStat = OrderStatus.COMPLETE;
+            }
+
+            if (!(newStat == null)) {
+                controller.updateOrderStatus(newStat);
+                StatusLebel.setText("" + controller.getOrderStatus());
+                massgaeLabel.setText("Status Updated");
+            }
+            stage.close();
+
+        });
+
+        closeBtn.setOnAction(event -> stage.close());
+
+        HBox buttonRow = new HBox(5, updateBtn, closeBtn);
+
+        VBox root = new VBox(5, title, orderView, StatusLebel, confirmedBtn, prepareBtn, readyBtn, deliveryBtn,
+                completeBtn, massgaeLabel, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
     }
 
     private void showMainMenu() {

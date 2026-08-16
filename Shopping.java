@@ -169,7 +169,7 @@ class Shopping {
         }
     }
 
-    void staffUpdateStatus(OrderStatus newStatus) {
+    public void staffUpdateStatus(OrderStatus newStatus) {
         if (orderStatus == OrderStatus.NO_ORDER) {
             System.out.println("No order has been placed.");
             return;
@@ -195,4 +195,5 @@ class Shopping {
     public String toString() {
         return "Cart items: " + cart.size() + ", Order status: " + orderStatus;
     }
+
 }

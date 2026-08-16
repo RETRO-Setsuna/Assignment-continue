@@ -79,4 +79,12 @@ public class AppController {
     public void removeChoc(int c) {
         this.model.removeChoc(c);
     }
+
+    public OrderStatus getOrderStatus() {
+        return model.getOrderStatus();
+    }
+
+    public void updateOrderStatus(OrderStatus newStat) {
+        model.updateOrderStatus(newStat);
+    }
 }

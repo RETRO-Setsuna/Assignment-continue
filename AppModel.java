@@ -162,4 +162,8 @@ public class AppModel {
         }
     }
 
+    public void updateOrderStatus(OrderStatus status) {
+        shopping.staffUpdateStatus(status);
+    }
+
 }
