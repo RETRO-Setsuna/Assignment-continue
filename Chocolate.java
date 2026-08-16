@@ -1,3 +1,7 @@
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 enum Size {
     S, M, L, XL;
 }
@@ -42,74 +46,141 @@ enum OrderStatus {
 }
 
 class Chocolate implements Discountable {
-    private String productId;
-    private String name;
-    private double price;
-    private Size size;
-    private Sweetness sweetness;
-    private Types type;
-    private Fillings filling;
-    private Toppings topping;
+
+    private final SimpleStringProperty chocName;
+    private final SimpleStringProperty chocID;
+    private final SimpleObjectProperty<Sweetness> chocSweet;
+    private final SimpleObjectProperty<Types> chocType;
+    private final SimpleObjectProperty<Toppings> chocTops;
+    private final SimpleObjectProperty<Fillings> chocFill;
+    private final SimpleObjectProperty<Size> chocSize;
+    private final SimpleDoubleProperty chocPrice;
 
     Chocolate(String productId, String name, double price, Size size, Sweetness sweetness, Types type, Fillings filling,
             Toppings topping) {
-        this.productId = productId;
-        this.name = name;
-        this.price = price;
-        this.size = size;
-        this.sweetness = sweetness;
-        this.type = type;
-        this.filling = filling;
-        this.topping = topping;
+        this.chocID = new SimpleStringProperty(productId);
+        this.chocName = new SimpleStringProperty(name);
+        this.chocPrice = new SimpleDoubleProperty(price);
+        this.chocSize = new SimpleObjectProperty<>(size);
+        this.chocSweet = new SimpleObjectProperty<>(sweetness);
+        this.chocType = new SimpleObjectProperty<>(type);
+        this.chocFill = new SimpleObjectProperty<>(filling);
+        this.chocTops = new SimpleObjectProperty<>(topping);
     }
 
     public String getProductId() {
-        return productId;
+        return chocID.get();
+    }
+
+    public void setProductID(String newID) {
+        this.chocID.set(newID);
+    }
+
+    public SimpleStringProperty productIDProperty() {
+        return chocID;
     }
 
     public String getName() {
-        return name;
+        return chocName.get();
+    }
+
+    public void setName(String newName) {
+        this.chocName.set(newName);
+    }
+
+    public SimpleStringProperty nameProperty() {
+        return chocName;
     }
 
     public Size getSize() {
-        return size;
+        return chocSize.get();
+    }
+
+    public void setSize(Size newSize) {
+        this.chocSize.set(newSize);
+    }
+
+    public SimpleObjectProperty<Size> sizeProperty() {
+        return chocSize;
     }
 
     public Sweetness getSweetness() {
-        return sweetness;
+        return chocSweet.get();
+    }
+
+    public void setSweetness(Sweetness newSweet) {
+        this.chocSweet.set(newSweet);
+    }
+
+    public SimpleObjectProperty<Sweetness> sweetProperty() {
+        return chocSweet;
     }
 
     public Types getType() {
-        return type;
+        return chocType.get();
+    }
+
+    public void setType(Types newType) {
+        this.chocType.set(newType);
+    }
+
+    public SimpleObjectProperty<Types> typeProperty() {
+        return chocType;
     }
 
     public double getPrice() {
-        return price;
+        return chocPrice.get();
+    }
+
+    public void setPrice(double newPrice) {
+        this.chocPrice.set(newPrice);
+    }
+
+    public SimpleDoubleProperty priceProperty() {
+        return chocPrice;
     }
 
     public Toppings getToppings() {
-        return topping;
+        return chocTops.get();
+    }
+
+    public void setTopping(Toppings newTop) {
+        this.chocTops.set(newTop);
+    }
+
+    public SimpleObjectProperty<Toppings> toppingProperty() {
+        return chocTops;
     }
 
     public Fillings getFilling() {
-        return filling;
+        return chocFill.get();
+    }
+
+    public void newFIlling(Fillings newFIll) {
+        this.chocFill.set(newFIll);
+    }
+
+    public SimpleObjectProperty<Fillings> fillProperty() {
+        return chocFill;
     }
 
     void displayChocolate() {
-        System.out.println("Type: " + type);
-        System.out.println("Size: " + size);
-        System.out.println("Sweetness: " + sweetness.getPercentage() + "%");
-        System.out.println("Filling: " + filling);
-        System.out.println("Topping: " + topping);
+        System.out.println("Type: " + chocType);
+        System.out.println("Size: " + chocSize);
+        System.out.println("Sweetness: " + chocSweet.getValue().getPercentage() + "%");
+        System.out.println("Filling: " + chocFill);
+        System.out.println("Topping: " + chocTops);
     }
 
     @Override
     public String toString() {
-        return "Product Name : " + this.name + "\nProduct ID   : " + this.productId + "\nPrice        : $" + this.price;
+        return "Product Name : " + this.chocName + "\nProduct ID   : " + this.chocID + "\nPrice        : $"
+                + this.chocPrice;
     }
 
     @Override
     public double calculateDiscountPrice() {
         return getPrice() * 0.9;
     }
+
 }

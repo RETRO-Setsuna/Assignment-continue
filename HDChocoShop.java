@@ -364,6 +364,12 @@ class HDChocoShop {
         displayFilteredChocolate(inventory.filterBySweetness(sweetness));
     }
 
+    void insertChocolate(Chocolate c) {
+        Chocolate CHocolateFx = new Chocolate(c.getProductId(), c.getName(), c.getPrice(), c.getSize(),
+                c.getSweetness(), c.getType(), c.getFilling(), c.getToppings());
+        shopping.addToCart(CHocolateFx);
+    }
+
     @Override
     public String toString() {
         return "HD Choco Shop";

@@ -12,7 +12,9 @@ public class AppModel {
     private boolean memberSignedIn;
     private ListOfUsers users;
 
-    private ObservableList<Chocolate> chocolates;
+    private final ObservableList<Chocolate> chocolates;
+
+    private final HDChocoShop chocshop;
 
     public AppModel() {
         this.inventory = new Inventory();
@@ -22,7 +24,7 @@ public class AppModel {
                 new HashMap<Usernames, Passwords>(),
                 new ArrayList<Users>());
         this.chocolates = FXCollections.observableArrayList();
-
+        this.chocshop = new HDChocoShop();
     }
 
     public Inventory getInventory() {
@@ -141,4 +143,27 @@ public class AppModel {
 
         return total;
     }
+
+    public ObservableList<Chocolate> chocoProperties() {
+        return this.chocolates;
+    }
+
+    public void addChoc(Chocolate c) {
+        chocshop.insertChocolate(c);
+    }
+
+    public void updateChoco(Chocolate c, int index) {
+        this.chocolates.set(index, c);
+    }
+
+    public void removeChoc(int index) {
+        this.chocolates.remove(index);
+    }
+
+    public void removeAll() {
+        for (int i = chocolates.size() - 1; i > 0; i--) {
+            this.chocolates.remove(i);
+        }
+    }
+
 }

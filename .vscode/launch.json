@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AppMain",
+            "request": "launch",
+            "mainClass": "AppMain",
+            "projectName": "Assignment-continue_2ee935f5"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",

@@ -30,6 +30,13 @@ public class AppView {
     private Stage primaryStage;
     private TableView<Chocolate> chocolateView;
 
+    public TableView<Chocolate> chocoView;
+    private Button addChcoclate;
+    private Button removeChocolate;
+    private Button updateChocolate;
+    private Button removeAllCHocolate;
+    private Button changCustomerStatus;
+
     public AppView(AppController controller, AppModel model, Stage primaryStage) {
         this.controller = controller;
         this.model = model;
@@ -57,6 +64,7 @@ public class AppView {
         exitBtn = new Button("Exit");
 
         customerBtn.setOnAction(event -> showCustomerMenu());
+        staffBtn.setOnAction(event -> PasscodePanel());
         exitBtn.setOnAction(event -> primaryStage.close());
 
         view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
@@ -163,6 +171,464 @@ public class AppView {
         Scene scene = new Scene(root, 350, 180);
 
         stage.setScene(scene);
+        stage.show();
+    }
+
+    private void PasscodePanel() {
+
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        Label msgLabel = new Label("");
+
+        TextField passcodField = new TextField();
+        passcodField.setPromptText("Passcode");
+
+        Button confirmBtn = new Button("Confirm");
+        Button returnBtn = new Button("Return");
+
+        HBox passcodeRow = new HBox(5, new Label("Passcode:"), passcodField);
+        passcodeRow.setAlignment(Pos.CENTER);
+        HBox buttonRow = new HBox(5, confirmBtn, returnBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        confirmBtn.setOnAction(event -> {
+            String passcode = passcodField.getText().trim();
+
+            if (passcode.isEmpty()) {
+                msgLabel.setText("please enter PassCode");
+            } else if (passcode.equals("1234")) {
+                staffPanel();
+                stage.close();
+            } else {
+                msgLabel.setText("Wrong Passcode");
+            }
+
+        });
+
+        returnBtn.setOnAction(event -> stage.close());
+
+        VBox root = new VBox(5, passcodeRow, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 350, 180);
+
+        stage.setScene(scene);
+        stage.show();
+
+        view.getChildren().clear();
+
+    }
+
+    private void staffPanel() {
+        this.chocoView = new TableView<>();
+
+        TableColumn<Chocolate, String> chocoName = new TableColumn<>("Chocolate Name");
+        chocoName.setMinWidth(200.0);
+        chocoName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+
+        TableColumn<Chocolate, String> chocoID = new TableColumn<>("Product ID");
+        chocoID.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
+
+        TableColumn<Chocolate, Double> chocoPrice = new TableColumn<>("Price");
+        chocoPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+
+        TableColumn<Chocolate, Size> chocSize = new TableColumn<>("Chocolate Size");
+        chocSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
+
+        TableColumn<Chocolate, Types> chocoType = new TableColumn<>("Chocolate Type");
+        chocoType.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
+
+        TableColumn<Chocolate, Toppings> chocotoppings = new TableColumn<>("Toppings");
+        chocotoppings.setCellValueFactory(cellData -> cellData.getValue().toppingProperty());
+
+        TableColumn<Chocolate, Sweetness> chocosweetnesses = new TableColumn<>("sweetnessesness");
+        chocosweetnesses.setCellValueFactory(cellData -> cellData.getValue().sweetProperty());
+
+        TableColumn<Chocolate, Fillings> chocFill = new TableColumn<>("Fillings");
+        chocFill.setCellValueFactory(cellData -> cellData.getValue().fillProperty());
+
+        this.chocoView.getColumns().addAll(chocoName, chocoID, chocoPrice, chocSize, chocoType, chocosweetnesses,
+                chocFill, chocotoppings);
+        this.chocoView.setItems(model.chocoProperties());
+
+        this.addChcoclate = new Button("Add Chocolate");
+        this.addChcoclate.setOnAction(event -> AddChocPanel());
+        this.removeChocolate = new Button("Remove Chocolate");
+        this.updateChocolate = new Button("Edit Chocolate");
+        this.updateChocolate.setOnAction(event -> {
+            int i = this.chocoView.getSelectionModel().getSelectedIndex();
+            if (i != -1) {
+                editingChocPanel(i);
+            }
+        });
+
+        HBox buttonRow = new HBox(5, addChcoclate, removeChocolate, updateChocolate);
+
+        view.getChildren().addAll(this.chocoView, buttonRow);
+    }
+
+    private void AddChocPanel() {
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField nameField = new TextField();
+        TextField idField = new TextField();
+        TextField priceField = new TextField();
+
+        nameField.setPromptText("Enter Chocolate Name");
+        HBox nameRow = new HBox(5, new Label("Name:"), nameField);
+        nameField.setAlignment(Pos.CENTER);
+        idField.setPromptText(" Enter Chocolate ID");
+        HBox idRow = new HBox(5, new Label("ID: "), idField);
+        idField.setAlignment(Pos.CENTER);
+        priceField.setPromptText("Enter price");
+        HBox priceRow = new HBox(5, new Label("Price:"), priceField);
+        priceField.setAlignment(Pos.CENTER);
+
+        ToggleGroup sizeGroup = new ToggleGroup();
+        RadioButton sBtn = new RadioButton("Small");
+        RadioButton mBtn = new RadioButton("Medium");
+        RadioButton lBtn = new RadioButton("Large");
+        RadioButton xlBtn = new RadioButton("Extra Large");
+        sBtn.setToggleGroup(sizeGroup);
+        mBtn.setToggleGroup(sizeGroup);
+        lBtn.setToggleGroup(sizeGroup);
+        xlBtn.setToggleGroup(sizeGroup);
+
+        ToggleGroup typeGroup = new ToggleGroup();
+        RadioButton dkChocBtn = new RadioButton("Dark Chocolate");
+        RadioButton mkChocBtn = new RadioButton("Milk Chocolate");
+        RadioButton wtChocBtn = new RadioButton("White Chocolate");
+        RadioButton cncChocBtn = new RadioButton("Cookies and Cream Chocolate");
+        dkChocBtn.setToggleGroup(typeGroup);
+        mkChocBtn.setToggleGroup(typeGroup);
+        wtChocBtn.setToggleGroup(typeGroup);
+        cncChocBtn.setToggleGroup(typeGroup);
+
+        ToggleGroup sweetnessesGroup = new ToggleGroup();
+        RadioButton nasweetnessesBtn = new RadioButton("0%");
+        RadioButton qusweetnessesBtn = new RadioButton("25%");
+        RadioButton hfsweetnessesBtn = new RadioButton("50%");
+        RadioButton mysweetnessesBtn = new RadioButton("75%");
+        RadioButton orsweetnessesBtn = new RadioButton("100%");
+        nasweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        qusweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        hfsweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        mysweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        orsweetnessesBtn.setToggleGroup(sweetnessesGroup);
+
+        ToggleGroup fillingGroup = new ToggleGroup();
+        RadioButton nfFillBtn = new RadioButton("None");
+        RadioButton clFillBtn = new RadioButton("Caramel");
+        RadioButton nsFillBtn = new RadioButton("Nuts");
+        RadioButton ftFillBtn = new RadioButton("Fruits");
+        nfFillBtn.setToggleGroup(fillingGroup);
+        clFillBtn.setToggleGroup(fillingGroup);
+        nsFillBtn.setToggleGroup(fillingGroup);
+        ftFillBtn.setToggleGroup(fillingGroup);
+
+        ToggleGroup toppingGroup = new ToggleGroup();
+        RadioButton ntTopBtn = new RadioButton("None");
+        RadioButton ftTopBtn = new RadioButton("Fruits");
+        RadioButton ooTopBtn = new RadioButton("Oreo");
+        RadioButton cpTopBtn = new RadioButton("Popping Candy");
+        RadioButton ecTopBtn = new RadioButton("Extra Chocolate");
+        ntTopBtn.setToggleGroup(toppingGroup);
+        ftTopBtn.setToggleGroup(toppingGroup);
+        ooTopBtn.setToggleGroup(toppingGroup);
+        cpTopBtn.setToggleGroup(toppingGroup);
+        ecTopBtn.setToggleGroup(toppingGroup);
+
+        HBox sizeRow = new HBox(5, sBtn, mBtn, lBtn, xlBtn);
+        HBox typeRow = new HBox(5, dkChocBtn, mkChocBtn, wtChocBtn, cncChocBtn);
+        HBox sweetnessesRow = new HBox(5, nasweetnessesBtn, qusweetnessesBtn, hfsweetnessesBtn, mysweetnessesBtn,
+                orsweetnessesBtn);
+        HBox fillRow = new HBox(5, nfFillBtn, clFillBtn, nsFillBtn, ftFillBtn);
+        HBox topRow = new HBox(5, ntTopBtn, ftTopBtn, ooTopBtn, cpTopBtn, ecTopBtn);
+        sizeRow.setAlignment(Pos.CENTER);
+        typeRow.setAlignment(Pos.CENTER);
+        sweetnessesRow.setAlignment(Pos.CENTER);
+        fillRow.setAlignment(Pos.CENTER);
+        topRow.setAlignment(Pos.CENTER);
+
+        Button submitButton = new Button("Submit");
+        submitButton.setOnAction(event -> {
+            String name = nameField.getText().trim();
+            String id = idField.getText().trim();
+            double price = Double.parseDouble(priceField.getText().trim());
+            Size size;
+            Types type;
+            Sweetness sweetnesses;
+            Fillings filling;
+            Toppings toppings;
+
+            if (sBtn.isSelected()) {
+                size = Size.S;
+            } else if (mBtn.isSelected()) {
+                size = Size.M;
+            } else if (lBtn.isSelected()) {
+                size = Size.L;
+            } else {
+                size = Size.XL;
+            }
+
+            if (dkChocBtn.isSelected()) {
+                type = Types.DARK_CHOCOLATE;
+            } else if (mkChocBtn.isSelected()) {
+                type = Types.MILK_CHOCOLATE;
+            } else if (wtChocBtn.isSelected()) {
+                type = Types.WHITE_CHOCOLATE;
+            } else {
+                type = Types.COOKIE_AND_CREAM;
+            }
+
+            if (nasweetnessesBtn.isSelected()) {
+                sweetnesses = Sweetness.ZERO;
+            } else if (qusweetnessesBtn.isSelected()) {
+                sweetnesses = Sweetness.TWENTY_FIVE;
+            } else if (hfsweetnessesBtn.isSelected()) {
+                sweetnesses = Sweetness.FIFTY;
+            } else if (mysweetnessesBtn.isSelected()) {
+                sweetnesses = Sweetness.SEVENTY_FIVE;
+            } else {
+                sweetnesses = Sweetness.HUNDRED;
+            }
+
+            if (nfFillBtn.isSelected()) {
+                filling = Fillings.NONE;
+            } else if (clFillBtn.isSelected()) {
+                filling = Fillings.CARAMEL;
+            } else if (nsFillBtn.isSelected()) {
+                filling = Fillings.NUTS;
+            } else {
+                filling = Fillings.FRUITS;
+            }
+
+            if (ntTopBtn.isSelected()) {
+                toppings = Toppings.NONE;
+            } else if (ftTopBtn.isSelected()) {
+                toppings = Toppings.FRUITS;
+            } else if (ooTopBtn.isSelected()) {
+                toppings = Toppings.OREO;
+            } else if (cpTopBtn.isSelected()) {
+                toppings = Toppings.CANDY_POP;
+            } else {
+                toppings = Toppings.EXTRA_CHOCOLATE;
+            }
+
+            if (!name.isEmpty() && !id.isEmpty() && price != 0) {
+                Chocolate c = new Chocolate(id, name, price, size, sweetnesses, type, filling, toppings);
+            }
+
+        });
+        Button cancelBtn = new Button("Cancel");
+        cancelBtn.setOnAction(event -> stage.close());
+
+        HBox buttonRow = new HBox(5, submitButton, cancelBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox root = new VBox(5, nameRow, idRow, priceRow, sizeRow, typeRow, sweetnessesRow, fillRow, topRow, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
+        Scene testScene = new Scene(root, 700, 700);
+        stage.setScene(testScene);
+        stage.show();
+
+    }
+
+    private void editingChocPanel(int index) {
+        Stage stage = new Stage();
+        stage.initOwner(primaryStage);
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        TextField nameField = new TextField();
+        TextField idField = new TextField();
+        TextField priceField = new TextField();
+
+        String oldName = model.chocoProperties().get(index).getName();
+        nameField.setPromptText("Enter new name");
+        nameField.setText(oldName);
+
+        String oldID = model.chocoProperties().get(index).getProductId();
+        idField.setPromptText("Enter new ID");
+        idField.setText(oldID);
+
+        String oldPrice = String.valueOf(model.chocoProperties().get(index).getPrice());
+        priceField.setPromptText("Enter new price");
+        priceField.setText(oldPrice);
+
+        HBox nameRow = new HBox(5, new Label("Name:", nameField));
+        nameField.setAlignment(Pos.CENTER);
+        HBox idRow = new HBox(5, new Label("ID: "), idField);
+        idField.setAlignment(Pos.CENTER);
+        HBox priceRow = new HBox(5, new Label("Price:", priceField));
+        priceField.setAlignment(Pos.CENTER);
+
+        ToggleGroup sizeGroup = new ToggleGroup();
+        RadioButton sBtn = new RadioButton("Small");
+        RadioButton mBtn = new RadioButton("Medium");
+        RadioButton lBtn = new RadioButton("Large");
+        RadioButton xlBtn = new RadioButton("Extra Large");
+        sBtn.setToggleGroup(sizeGroup);
+        mBtn.setToggleGroup(sizeGroup);
+        lBtn.setToggleGroup(sizeGroup);
+        xlBtn.setToggleGroup(sizeGroup);
+
+        ToggleGroup typeGroup = new ToggleGroup();
+        RadioButton dkChocBtn = new RadioButton("Dark Chocolate");
+        RadioButton mkChocBtn = new RadioButton("Milk Chocolate");
+        RadioButton wtChocBtn = new RadioButton("White Chocolate");
+        RadioButton cncChocBtn = new RadioButton("Cookies and Cream Chocolate");
+        dkChocBtn.setToggleGroup(typeGroup);
+        mkChocBtn.setToggleGroup(typeGroup);
+        wtChocBtn.setToggleGroup(typeGroup);
+        cncChocBtn.setToggleGroup(typeGroup);
+
+        ToggleGroup sweetnessesGroup = new ToggleGroup();
+        RadioButton nasweetnessesBtn = new RadioButton("0%");
+        RadioButton qusweetnessesBtn = new RadioButton("25%");
+        RadioButton hfsweetnessesBtn = new RadioButton("50%");
+        RadioButton mysweetnessesBtn = new RadioButton("75%");
+        RadioButton orsweetnessesBtn = new RadioButton("100%");
+        nasweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        qusweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        hfsweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        mysweetnessesBtn.setToggleGroup(sweetnessesGroup);
+        orsweetnessesBtn.setToggleGroup(sweetnessesGroup);
+
+        ToggleGroup fillingGroup = new ToggleGroup();
+        RadioButton nfFillBtn = new RadioButton("None");
+        RadioButton clFillBtn = new RadioButton("Caramel");
+        RadioButton nsFillBtn = new RadioButton("Nuts");
+        RadioButton ftFillBtn = new RadioButton("Fruits");
+        nfFillBtn.setToggleGroup(fillingGroup);
+        clFillBtn.setToggleGroup(fillingGroup);
+        nsFillBtn.setToggleGroup(fillingGroup);
+        ftFillBtn.setToggleGroup(fillingGroup);
+
+        ToggleGroup toppingGroup = new ToggleGroup();
+        RadioButton ntTopBtn = new RadioButton("None");
+        RadioButton ftTopBtn = new RadioButton("Fruits");
+        RadioButton ooTopBtn = new RadioButton("Oreo");
+        RadioButton cpTopBtn = new RadioButton("Popping Candy");
+        RadioButton ecTopBtn = new RadioButton("Extra Chocolate");
+        ntTopBtn.setToggleGroup(toppingGroup);
+        ftTopBtn.setToggleGroup(toppingGroup);
+        ooTopBtn.setToggleGroup(toppingGroup);
+        cpTopBtn.setToggleGroup(toppingGroup);
+        ecTopBtn.setToggleGroup(toppingGroup);
+
+        HBox sizeRow = new HBox(5, sBtn, mBtn, lBtn, xlBtn);
+        HBox typeRow = new HBox(5, dkChocBtn, mkChocBtn, wtChocBtn, cncChocBtn);
+        HBox sweetnessesRow = new HBox(5, nasweetnessesBtn, qusweetnessesBtn, hfsweetnessesBtn, mysweetnessesBtn,
+                orsweetnessesBtn);
+        HBox fillRow = new HBox(5, nfFillBtn, clFillBtn, nsFillBtn, ftFillBtn);
+        HBox topRow = new HBox(5, ntTopBtn, ftTopBtn, ooTopBtn, cpTopBtn, ecTopBtn);
+        sizeRow.setAlignment(Pos.CENTER);
+        typeRow.setAlignment(Pos.CENTER);
+        sweetnessesRow.setAlignment(Pos.CENTER);
+        fillRow.setAlignment(Pos.CENTER);
+        topRow.setAlignment(Pos.CENTER);
+
+        Button submitBtn = new Button("Submit");
+        submitBtn.setOnAction(event -> {
+            String name = nameField.getText().trim();
+            String id = idField.getText().trim();
+            double price = Double.parseDouble(priceField.getText().trim());
+
+            Size oldSize = model.chocoProperties().get(index).getSize();
+            Types oldTypes = model.chocoProperties().get(index).getType();
+            Sweetness oldSweetness = model.chocoProperties().get(index).getSweetness();
+            Fillings oldFillings = model.chocoProperties().get(index).getFilling();
+            Toppings oldToppings = model.chocoProperties().get(index).getToppings();
+
+            Size newSize;
+            Types newTypes;
+            Sweetness newSweetness;
+            Fillings newFillings;
+            Toppings newToppings;
+
+            if (sBtn.isSelected()) {
+                newSize = Size.S;
+            } else if (mBtn.isSelected()) {
+                newSize = Size.M;
+            } else if (lBtn.isSelected()) {
+                newSize = Size.L;
+            } else {
+                newSize = Size.XL;
+            }
+
+            if (dkChocBtn.isSelected()) {
+                newTypes = Types.DARK_CHOCOLATE;
+            } else if (mkChocBtn.isSelected()) {
+                newTypes = Types.MILK_CHOCOLATE;
+            } else if (wtChocBtn.isSelected()) {
+                newTypes = Types.WHITE_CHOCOLATE;
+            } else {
+                newTypes = Types.COOKIE_AND_CREAM;
+            }
+
+            if (nasweetnessesBtn.isSelected()) {
+                newSweetness = Sweetness.ZERO;
+            } else if (qusweetnessesBtn.isSelected()) {
+                newSweetness = Sweetness.TWENTY_FIVE;
+            } else if (hfsweetnessesBtn.isSelected()) {
+                newSweetness = Sweetness.FIFTY;
+            } else if (mysweetnessesBtn.isSelected()) {
+                newSweetness = Sweetness.SEVENTY_FIVE;
+            } else {
+                newSweetness = Sweetness.HUNDRED;
+            }
+
+            if (nfFillBtn.isSelected()) {
+                newFillings = Fillings.NONE;
+            } else if (clFillBtn.isSelected()) {
+                newFillings = Fillings.CARAMEL;
+            } else if (nsFillBtn.isSelected()) {
+                newFillings = Fillings.NUTS;
+            } else {
+                newFillings = Fillings.FRUITS;
+            }
+
+            if (ntTopBtn.isSelected()) {
+                newToppings = Toppings.NONE;
+            } else if (ftTopBtn.isSelected()) {
+                newToppings = Toppings.FRUITS;
+            } else if (ooTopBtn.isSelected()) {
+                newToppings = Toppings.OREO;
+            } else if (cpTopBtn.isSelected()) {
+                newToppings = Toppings.CANDY_POP;
+            } else {
+                newToppings = Toppings.EXTRA_CHOCOLATE;
+            }
+
+            boolean changeSize = oldSize != newSize;
+            boolean changeType = oldTypes != newTypes;
+            boolean changeSweetness = oldSweetness != newSweetness;
+            boolean changeFilling = oldFillings != newFillings;
+            boolean changeTopping = oldToppings != newToppings;
+            boolean newNameIDAndPriceNotEmpty = !name.isEmpty() && !id.isEmpty() && price != 0;
+            if (changeSize || changeType || changeSweetness || changeFilling || changeTopping
+                    || newNameIDAndPriceNotEmpty) {
+                Chocolate c = new Chocolate(id, name, price, newSize, newSweetness, newTypes, newFillings, newToppings);
+                stage.close();
+            }
+
+        });
+        Button cancelBtn = new Button("Cancel");
+        cancelBtn.setOnAction(event -> stage.close());
+
+        HBox buttonRow = new HBox(5, submitBtn, cancelBtn);
+        buttonRow.setAlignment(Pos.CENTER);
+
+        VBox root = new VBox(5, nameRow, idRow, priceRow, sizeRow, typeRow, sweetnessesRow, fillRow, topRow, buttonRow);
+        root.setAlignment(Pos.CENTER);
+
+        Scene testScene = new Scene(root, 300, 300);
+        stage.setScene(testScene);
         stage.show();
     }
 
