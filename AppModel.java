@@ -14,8 +14,6 @@ public class AppModel {
 
     private final ObservableList<Chocolate> chocolates;
 
-    private final HDChocoShop chocshop;
-
     public AppModel() {
         this.inventory = new Inventory();
         this.shopping = new Shopping();
@@ -24,7 +22,7 @@ public class AppModel {
                 new HashMap<Usernames, Passwords>(),
                 new ArrayList<Users>());
         this.chocolates = FXCollections.observableArrayList();
-        this.chocshop = new HDChocoShop();
+
     }
 
     public Inventory getInventory() {

@@ -38,28 +38,6 @@ class Shopping {
         }
     }
 
-    void deleteFromCart() {
-        if (cart.isEmpty()) {
-            System.out.println("Your cart is empty.");
-            return;
-        }
-
-        displayCart();
-
-        System.out.println();
-        System.out.print("Enter chocolate you want to delete name: ");
-        String name = In.nextLine();
-
-        for (int i = 0; i < cart.size(); i++) {
-            if (cart.get(i).getName().equals(name)) {
-                deleteFromCart(cart.get(i));
-                return;
-            }
-        }
-
-        System.out.println("Chocolate not found.");
-    }
-
     void checkout(boolean memberSignedIn, PaymentMethod paymentMethod, Delivery delivery) {
 
         if (cart.isEmpty()) {
@@ -118,55 +96,6 @@ class Shopping {
         }
 
         return total;
-    }
-
-    PaymentMethod choosePaymentMethod() {
-        while (true) {
-
-            System.out.println();
-            System.out.println("Choose Payment Method");
-            System.out.println();
-            System.out.println("1. Cash");
-            System.out.println("2. Card");
-            System.out.println("3. Transfer");
-            System.out.println();
-            System.out.print("Select an option: ");
-
-            int choice = In.nextInt();
-
-            if (choice == 1) {
-                return PaymentMethod.CASH;
-            } else if (choice == 2) {
-                return PaymentMethod.CARD;
-            } else if (choice == 3) {
-                return PaymentMethod.TRANSFER;
-            } else {
-                System.out.println("Invalid option. Please select again.");
-            }
-        }
-    }
-
-    Delivery chooseDelivery() {
-        while (true) {
-
-            System.out.println();
-            System.out.println("Choose Delivery Option");
-            System.out.println();
-            System.out.println("1. Pick Up");
-            System.out.println("2. Delivery");
-            System.out.println();
-            System.out.print("Select an option: ");
-
-            int choice = In.nextInt();
-
-            if (choice == 1) {
-                return Delivery.PICK_UP;
-            } else if (choice == 2) {
-                return Delivery.DELIVERY;
-            } else {
-                System.out.println("Invalid option. Please choose again.");
-            }
-        }
     }
 
     public void staffUpdateStatus(OrderStatus newStatus) {
