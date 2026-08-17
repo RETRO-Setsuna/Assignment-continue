@@ -302,9 +302,9 @@ public class AppView {
         HBox idRow = new HBox(5, new Label("ID: "), idField);
         HBox priceRow = new HBox(5, new Label("Price:"), priceField);
 
-        idField.setAlignment(Pos.CENTER);
-        nameField.setAlignment(Pos.CENTER);
-        priceField.setAlignment(Pos.CENTER);
+        nameRow.setAlignment(Pos.CENTER);
+        idRow.setAlignment(Pos.CENTER);
+        priceRow.setAlignment(Pos.CENTER);
 
         ToggleGroup sizeGroup = new ToggleGroup();
         RadioButton sBtn = new RadioButton("Small");
@@ -439,8 +439,7 @@ public class AppView {
 
             if (!name.isEmpty() && !id.isEmpty() && price != 0) {
                 Chocolate c = new Chocolate(id, name, price, size, sweetnesses, type, filling, toppings);
-                controller.buildChocolate(name, type, size, sweetnesses, filling, toppings);
-                model.addChocolate(c);
+                controller.addChocolate(c);
                 stage.close();
             }
 
@@ -483,11 +482,11 @@ public class AppView {
         priceField.setText(oldPrice);
 
         HBox nameRow = new HBox(5, new Label("Name:"), nameField);
-        nameField.setAlignment(Pos.CENTER);
+        nameRow.setAlignment(Pos.CENTER);
         HBox idRow = new HBox(5, new Label("ID: "), idField);
-        idField.setAlignment(Pos.CENTER);
+        idRow.setAlignment(Pos.CENTER);
         HBox priceRow = new HBox(5, new Label("Price:"), priceField);
-        priceField.setAlignment(Pos.CENTER);
+        priceRow.setAlignment(Pos.CENTER);
 
         ToggleGroup sizeGroup = new ToggleGroup();
         RadioButton sBtn = new RadioButton("Small");
@@ -674,8 +673,8 @@ public class AppView {
         TableColumn<Chocolate, String> priceCol = new TableColumn<>("Price");
 
         nameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        idCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        priceCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        idCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductId()));
+        priceCol.setCellValueFactory(cellData -> new SimpleStringProperty("$ " + cellData.getValue().getPrice()));
 
         orderView.getColumns().addAll(nameCol, idCol, priceCol);
         ObservableList<Chocolate> orderList = FXCollections.observableArrayList();
@@ -725,6 +724,10 @@ public class AppView {
         VBox root = new VBox(5, title, orderView, StatusLebel, confirmedBtn, prepareBtn, readyBtn, deliveryBtn,
                 completeBtn, massgaeLabel, buttonRow);
         root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 500, 500);
+        stage.setScene(scene);
+        stage.show();
 
     }
 
@@ -1529,4 +1532,5 @@ public class AppView {
         stage.setScene(scene);
         stage.show();
     }
+
 }

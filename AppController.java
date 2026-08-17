@@ -72,16 +72,12 @@ public class AppController {
         this.model.updateChoco(c, index);
     }
 
-    public void addChoc(Chocolate c) {
-        this.model.addChoc(c);
+    public void addChocolate(Chocolate c) {
+        model.addChocolate(c);
     }
 
     public void removeChoc(int c) {
         this.model.removeChoc(c);
-    }
-
-    public OrderStatus getOrderStatus() {
-        return model.getOrderStatus();
     }
 
     public void updateOrderStatus(OrderStatus newStat) {

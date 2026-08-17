@@ -182,11 +182,6 @@ class HDChocoShop {
         shopping.viewOrderStatus();
     }
 
-    void checkout() {
-
-        shopping.checkout(memberSignedIn);
-    }
-
     void deleteFromCart() {
         shopping.deleteFromCart();
     }
@@ -212,8 +207,6 @@ class HDChocoShop {
                 viewCart();
             } else if (choice == 2) {
                 deleteFromCart();
-            } else if (choice == 3) {
-                checkout();
             } else if (choice == 4) {
                 viewOrderStatus();
             } else if (choice == 5) {
