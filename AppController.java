@@ -83,4 +83,8 @@ public class AppController {
     public void updateOrderStatus(OrderStatus newStat) {
         model.updateOrderStatus(newStat);
     }
+
+    public void setMemberSignedIn(boolean memberSignedIn) {
+        model.setMemberSignedIn(memberSignedIn);
+    }
 }

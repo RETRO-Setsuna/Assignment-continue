@@ -68,6 +68,7 @@ public class AppView {
         staffBtn.setOnAction(event -> PasscodePanel());
         exitBtn.setOnAction(event -> primaryStage.close());
 
+        view.getChildren().clear();
         view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
     }
 
@@ -207,8 +208,10 @@ public class AppView {
             }
 
         });
-
-        returnBtn.setOnAction(event -> stage.close());
+        returnBtn.setOnAction(event -> {
+            stage.close();
+            showMainMenu();
+        });
 
         VBox root = new VBox(5, passcodeRow, buttonRow);
         root.setAlignment(Pos.CENTER);
@@ -217,8 +220,6 @@ public class AppView {
 
         stage.setScene(scene);
         stage.show();
-
-        view.getChildren().clear();
 
     }
 
@@ -740,6 +741,7 @@ public class AppView {
         exitBtn = new Button("Exit");
 
         customerBtn.setOnAction(event -> showCustomerMenu());
+        staffBtn.setOnAction(event -> PasscodePanel());
         exitBtn.setOnAction(event -> primaryStage.close());
 
         view.getChildren().clear();
@@ -783,7 +785,10 @@ public class AppView {
 
         chocolateView.getColumns().addAll(idCol, nameCol, priceCol, typeCol, sizeCol, sweetnessCol);
 
-        logoutBtn.setOnAction(event -> showCustomerMenu());
+        logoutBtn.setOnAction(event -> {
+            controller.setMemberSignedIn(false);
+            showMainMenu();
+        });
         searchBtn.setOnAction(event -> createSearchForm());
         showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocolatesProperty()));
         filterBtn.setOnAction(event -> createFilterForm());
