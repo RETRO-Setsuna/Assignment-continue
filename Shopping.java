@@ -120,6 +120,10 @@ class Shopping {
         return orderStatus;
     }
 
+    public void clearOrder() {
+        currentOrder.clear();
+    }
+
     @Override
     public String toString() {
         return "Cart items: " + cart.size() + ", Order status: " + orderStatus;

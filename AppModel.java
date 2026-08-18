@@ -160,6 +160,10 @@ public class AppModel {
         }
     }
 
+    public void clearOrder() {
+        shopping.clearOrder();
+    }
+
     public void updateOrderStatus(OrderStatus status) {
         shopping.staffUpdateStatus(status);
     }

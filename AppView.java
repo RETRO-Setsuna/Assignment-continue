@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.animation.Animation.Status;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -672,12 +673,14 @@ public class AppView {
         TableColumn<Chocolate, String> nameCol = new TableColumn<>("Name");
         TableColumn<Chocolate, String> idCol = new TableColumn<>("Product ID");
         TableColumn<Chocolate, String> priceCol = new TableColumn<>("Price");
+        TableColumn<Chocolate, OrderStatus> statusCol = new TableColumn<>("Status");
 
         nameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         idCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductId()));
         priceCol.setCellValueFactory(cellData -> new SimpleStringProperty("$ " + cellData.getValue().getPrice()));
+        statusCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(controller.getOrderStatus()));
 
-        orderView.getColumns().addAll(nameCol, idCol, priceCol);
+        orderView.getColumns().addAll(nameCol, idCol, priceCol, statusCol);
         ObservableList<Chocolate> orderList = FXCollections.observableArrayList();
         orderList.addAll(controller.getCurrentOrder());
         orderView.setItems(orderList);
@@ -707,6 +710,9 @@ public class AppView {
                 newStat = OrderStatus.OUT_FOR_DELIVERY;
             } else {
                 newStat = OrderStatus.COMPLETE;
+                controller.clearOrder();
+                orderList.clear();
+
             }
 
             if (!(newStat == null)) {

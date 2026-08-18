@@ -87,4 +87,8 @@ public class AppController {
     public void setMemberSignedIn(boolean memberSignedIn) {
         model.setMemberSignedIn(memberSignedIn);
     }
+
+    public void clearOrder() {
+        model.clearOrder();
+    }
 }
