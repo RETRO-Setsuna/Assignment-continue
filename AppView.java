@@ -771,7 +771,7 @@ public class AppView {
         menuRow.setAlignment(Pos.CENTER);
 
         chocolateView = new TableView<>();
-        chocolateView.setItems(model.chocolatesProperty());
+        chocolateView.setItems(model.chocoProperties());
 
         TableColumn<Chocolate, String> idCol = new TableColumn<>("ID");
         TableColumn<Chocolate, String> nameCol = new TableColumn<>("Name");

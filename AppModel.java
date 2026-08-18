@@ -33,10 +33,6 @@ public class AppModel {
         return shopping;
     }
 
-    public ObservableList<Chocolate> chocolatesProperty() {
-        return chocolates;
-    }
-
     public void addChocolate(Chocolate chocolate) {
         inventory.addChocolate(chocolate);
         chocolates.add(chocolate);
