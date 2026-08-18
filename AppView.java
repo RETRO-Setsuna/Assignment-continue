@@ -795,7 +795,7 @@ public class AppView {
             showMainMenu();
         });
         searchBtn.setOnAction(event -> createSearchForm());
-        showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocolatesProperty()));
+        showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocoProperties()));
         filterBtn.setOnAction(event -> createFilterForm());
         buildChocolateBtn.setOnAction(event -> createBuildChocolateForm());
         cartBtn.setOnAction(event -> createCartForm());
