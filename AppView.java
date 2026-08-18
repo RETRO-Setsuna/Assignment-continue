@@ -31,12 +31,12 @@ public class AppView {
     private TableView<Chocolate> chocolateView;
 
     public TableView<Chocolate> chocoView;
-    private Button addChcolate;
+    private Button addChocolate;
     private Button removeChocolate;
     private Button updateChocolate;
     private Button removeAllChocolate;
     private Button changeOrderStatus;
-    private Button logerBtn;
+    private Button logOutBtn;
 
     public AppView(AppController controller, AppModel model, Stage primaryStage) {
         this.controller = controller;
@@ -245,18 +245,18 @@ public class AppView {
         TableColumn<Chocolate, Toppings> chocotoppings = new TableColumn<>("Toppings");
         chocotoppings.setCellValueFactory(cellData -> cellData.getValue().toppingProperty());
 
-        TableColumn<Chocolate, Sweetness> chocosweetnesses = new TableColumn<>("sweetnessesness");
-        chocosweetnesses.setCellValueFactory(cellData -> cellData.getValue().sweetProperty());
+        TableColumn<Chocolate, Sweetness> chocoSweetnesses = new TableColumn<>("sweetnessesness");
+        chocoSweetnesses.setCellValueFactory(cellData -> cellData.getValue().sweetProperty());
 
         TableColumn<Chocolate, Fillings> chocFill = new TableColumn<>("Fillings");
         chocFill.setCellValueFactory(cellData -> cellData.getValue().fillProperty());
 
-        this.chocoView.getColumns().addAll(chocoName, chocoID, chocoPrice, chocSize, chocoType, chocosweetnesses,
+        this.chocoView.getColumns().addAll(chocoName, chocoID, chocoPrice, chocSize, chocoType, chocoSweetnesses,
                 chocFill, chocotoppings);
         this.chocoView.setItems(model.chocoProperties());
 
-        this.addChcolate = new Button("Add Chocolate");
-        this.addChcolate.setOnAction(event -> addChocPanel());
+        this.addChocolate = new Button("Add Chocolate");
+        this.addChocolate.setOnAction(event -> addChocPanel());
         this.removeChocolate = new Button("Remove Chocolate");
         this.removeChocolate.setOnAction(event -> {
             int index = this.chocoView.getSelectionModel().getSelectedIndex();
@@ -273,13 +273,13 @@ public class AppView {
         });
         this.changeOrderStatus = new Button("Update Customer Order Status");
         this.changeOrderStatus.setOnAction(event -> staffOrderStatus());
-        this.logerBtn = new Button("Log Out");
-        this.logerBtn.setOnAction(event -> {
+        this.logOutBtn = new Button("Log Out");
+        this.logOutBtn.setOnAction(event -> {
             view.getChildren().clear();
             createAndLayoutControls();
         });
 
-        HBox buttonRow = new HBox(5, addChcolate, removeChocolate, updateChocolate, changeOrderStatus, logerBtn);
+        HBox buttonRow = new HBox(5, addChocolate, removeChocolate, updateChocolate, changeOrderStatus, logOutBtn);
 
         view.getChildren().clear();
         view.getChildren().addAll(this.chocoView, buttonRow);
@@ -662,7 +662,7 @@ public class AppView {
         stage.initModality(Modality.APPLICATION_MODAL);
 
         Label title = new Label("Customer Order Status");
-        Label statusLebel = new Label("" + controller.getOrderStatus());
+        Label statusLabel = new Label("" + controller.getOrderStatus());
         Label messageLabel = new Label("");
         Button updateBtn = new Button("Update Status");
         Button closeBtn = new Button("Close");
@@ -716,7 +716,7 @@ public class AppView {
 
             if (!(newStat == null)) {
                 controller.updateOrderStatus(newStat);
-                statusLebel.setText("" + controller.getOrderStatus());
+                statusLabel.setText("" + controller.getOrderStatus());
                 messageLabel.setText("Status Updated");
             }
             stage.close();
@@ -727,7 +727,7 @@ public class AppView {
 
         HBox buttonRow = new HBox(5, updateBtn, closeBtn);
 
-        VBox root = new VBox(5, title, orderView, statusLebel, confirmedBtn, prepareBtn, readyBtn, deliveryBtn,
+        VBox root = new VBox(5, title, orderView, statusLabel, confirmedBtn, prepareBtn, readyBtn, deliveryBtn,
                 completeBtn, messageLabel, buttonRow);
         root.setAlignment(Pos.CENTER);
 

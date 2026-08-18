@@ -151,7 +151,7 @@ public class AppModel {
     }
 
     public void removeAll() {
-        for (int i = chocolates.size() - 1; i > 0; i--) {
+        for (int i = chocolates.size() - 1; i >= 0; i--) {
             this.chocolates.remove(i);
         }
     }
