@@ -1,5 +1,6 @@
 import java.util.List;
 
+//connects the view to model allowing the funtions in the model to be used in view
 public class AppController {
     private AppModel model;
 

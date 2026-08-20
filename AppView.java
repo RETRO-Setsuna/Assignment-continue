@@ -175,7 +175,8 @@ public class AppView {
         stage.show();
     }
 
-    private void passcodePanel() {
+    // Panel for the staff passcode
+    private void PasscodePanel() {
 
         Stage stage = new Stage();
         stage.initOwner(primaryStage);
@@ -197,6 +198,8 @@ public class AppView {
         confirmBtn.setOnAction(event -> {
             String passcode = passcodField.getText().trim();
 
+            // if the password is correct it would redirect you to the proper menu, else you
+            // wouldnt be able to enter
             if (passcode.isEmpty()) {
                 msgLabel.setText("please enter PassCode");
             } else if (passcode.equals("1234")) {
@@ -222,29 +225,30 @@ public class AppView {
 
     }
 
+    // the actual staff panel
     private void staffPanel() {
         this.chocoView = new TableView<>();
-        Label title = new Label("Staff Inventory");
-        TableColumn<Chocolate, String> chocoName = new TableColumn<>("Name");
+
+        TableColumn<Chocolate, String> chocoName = new TableColumn<>("Chocolate Name");
         chocoName.setMinWidth(200.0);
         chocoName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
-        TableColumn<Chocolate, String> chocoID = new TableColumn<>("ID");
+        TableColumn<Chocolate, String> chocoID = new TableColumn<>("Product ID");
         chocoID.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
-
+        // COolumn for the price
         TableColumn<Chocolate, Double> chocoPrice = new TableColumn<>("Price");
         chocoPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
 
-        TableColumn<Chocolate, Size> chocSize = new TableColumn<>("Size");
+        TableColumn<Chocolate, Size> chocSize = new TableColumn<>("Chocolate Size");
         chocSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
 
-        TableColumn<Chocolate, Types> chocoType = new TableColumn<>("Type");
+        TableColumn<Chocolate, Types> chocoType = new TableColumn<>("Chocolate Type");
         chocoType.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
 
-        TableColumn<Chocolate, Toppings> chocotoppings = new TableColumn<>("Topping");
+        TableColumn<Chocolate, Toppings> chocotoppings = new TableColumn<>("Toppings");
         chocotoppings.setCellValueFactory(cellData -> cellData.getValue().toppingProperty());
 
-        TableColumn<Chocolate, Sweetness> chocoSweetnesses = new TableColumn<>("Sweetnessesness");
+        TableColumn<Chocolate, Sweetness> chocoSweetnesses = new TableColumn<>("sweetnessesness");
         chocoSweetnesses.setCellValueFactory(cellData -> cellData.getValue().sweetProperty());
 
         TableColumn<Chocolate, Fillings> chocFill = new TableColumn<>("Filling");
@@ -254,9 +258,11 @@ public class AppView {
                 chocFill, chocotoppings);
         this.chocoView.setItems(model.chocoProperties());
 
-        this.addChocolate = new Button("Add Chocolate");
-        this.addChocolate.setOnAction(event -> addChocPanel());
+        this.addChcoclate = new Button("Add Chocolate");
+        // when clicked it would be redirected to AddChocoPanel
+        this.addChcoclate.setOnAction(event -> AddChocPanel());
         this.removeChocolate = new Button("Remove Chocolate");
+        // the selected choco would be deleted
         this.removeChocolate.setOnAction(event -> {
             int index = this.chocoView.getSelectionModel().getSelectedIndex();
             if (index != -1) {
@@ -264,6 +270,7 @@ public class AppView {
             }
         });
         this.updateChocolate = new Button("Edit Chocolate");
+        // when clicke the editingChocPanel
         this.updateChocolate.setOnAction(event -> {
             int i = this.chocoView.getSelectionModel().getSelectedIndex();
             if (i != -1) {
@@ -271,6 +278,7 @@ public class AppView {
             }
         });
         this.changeOrderStatus = new Button("Update Customer Order Status");
+        // when clicked it would open a staffOrderStatus
         this.changeOrderStatus.setOnAction(event -> staffOrderStatus());
         this.logOutBtn = new Button("Log Out");
         this.logOutBtn.setOnAction(event -> {
@@ -294,6 +302,7 @@ public class AppView {
         TextField idField = new TextField();
         TextField priceField = new TextField();
 
+        // Textsfields for the name ID and price
         nameField.setPromptText("Enter Chocolate Name");
         idField.setPromptText(" Enter Chocolate ID");
         priceField.setPromptText("Enter price");
@@ -306,6 +315,7 @@ public class AppView {
         idRow.setAlignment(Pos.CENTER);
         priceRow.setAlignment(Pos.CENTER);
 
+        // radio buttons for all avaliable options for size
         ToggleGroup sizeGroup = new ToggleGroup();
         RadioButton sBtn = new RadioButton("Small");
         RadioButton mBtn = new RadioButton("Medium");
@@ -316,6 +326,7 @@ public class AppView {
         lBtn.setToggleGroup(sizeGroup);
         xlBtn.setToggleGroup(sizeGroup);
 
+        // buttions for avaliable chocolate types
         ToggleGroup typeGroup = new ToggleGroup();
         RadioButton dkChocBtn = new RadioButton("Dark Chocolate");
         RadioButton mkChocBtn = new RadioButton("Milk Chocolate");
@@ -326,6 +337,7 @@ public class AppView {
         wtChocBtn.setToggleGroup(typeGroup);
         cncChocBtn.setToggleGroup(typeGroup);
 
+        // button for choosethe sweetness of the chocolatte and rhe level of sugar
         ToggleGroup sweetnessesGroup = new ToggleGroup();
         RadioButton nasweetnessesBtn = new RadioButton("0%");
         RadioButton qusweetnessesBtn = new RadioButton("25%");
@@ -338,6 +350,7 @@ public class AppView {
         mysweetnessesBtn.setToggleGroup(sweetnessesGroup);
         orsweetnessesBtn.setToggleGroup(sweetnessesGroup);
 
+        // selections of fillings
         ToggleGroup fillingGroup = new ToggleGroup();
         RadioButton nfFillBtn = new RadioButton("None");
         RadioButton clFillBtn = new RadioButton("Caramel");
@@ -348,6 +361,7 @@ public class AppView {
         nsFillBtn.setToggleGroup(fillingGroup);
         ftFillBtn.setToggleGroup(fillingGroup);
 
+        // selection of fillings
         ToggleGroup toppingGroup = new ToggleGroup();
         RadioButton ntTopBtn = new RadioButton("None");
         RadioButton ftTopBtn = new RadioButton("Fruits");
@@ -372,6 +386,8 @@ public class AppView {
         fillRow.setAlignment(Pos.CENTER);
         topRow.setAlignment(Pos.CENTER);
 
+        // when submitted a new chjocolate object is than made based on the user's
+        // selection
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(event -> {
             String name = nameField.getText().trim();
@@ -436,7 +452,7 @@ public class AppView {
             } else {
                 toppings = Toppings.EXTRA_CHOCOLATE;
             }
-
+            // when the chocolate is created the window automatically closes
             if (!name.isEmpty() && !id.isEmpty() && price != 0) {
                 Chocolate c = new Chocolate(id, name, price, size, sweetnesses, type, filling, toppings);
                 controller.addChocolate(c);
@@ -464,6 +480,9 @@ public class AppView {
         Stage stage = new Stage();
         stage.initOwner(primaryStage);
         stage.initModality(Modality.APPLICATION_MODAL);
+
+        // stores the old name, ID and prices andd creates new sections for new options
+        // but does not changes them yet
 
         TextField nameField = new TextField();
         TextField idField = new TextField();
@@ -554,6 +573,9 @@ public class AppView {
         fillRow.setAlignment(Pos.CENTER);
         topRow.setAlignment(Pos.CENTER);
 
+        // ffills up the newly created classes for the option chosen by the user and
+        // than compares the old and new chioces before updating the choclate to the new
+        // specificatsions
         Button submitBtn = new Button("Submit");
         submitBtn.setOnAction(event -> {
             String name = nameField.getText().trim();
@@ -632,6 +654,7 @@ public class AppView {
             boolean changeFilling = oldFillings != newFillings;
             boolean changeTopping = oldToppings != newToppings;
             boolean newNameIDAndPriceNotEmpty = !name.isEmpty() && !id.isEmpty() && price != 0;
+            // also automatically closes thje window when finished
             if (changeSize || changeType || changeSweetness || changeFilling || changeTopping
                     || newNameIDAndPriceNotEmpty) {
                 Chocolate c = new Chocolate(id, name, price, newSize, newSweetness, newTypes, newFillings,
@@ -666,8 +689,10 @@ public class AppView {
         Button updateBtn = new Button("Update Status");
         Button closeBtn = new Button("Close");
 
+        // new taboleview for the list of chocolates ordered by the user
         TableView<Chocolate> orderView = new TableView<>();
 
+        // table shows only name ID price and Status
         TableColumn<Chocolate, String> nameCol = new TableColumn<>("Name");
         TableColumn<Chocolate, String> idCol = new TableColumn<>("ID");
         TableColumn<Chocolate, String> priceCol = new TableColumn<>("Price");
@@ -683,6 +708,7 @@ public class AppView {
         orderList.addAll(controller.getCurrentOrder());
         orderView.setItems(orderList);
 
+        // new buttons for the users to update the status of the order
         ToggleGroup statusGroup = new ToggleGroup();
         RadioButton confirmedBtn = new RadioButton("Confirmed");
         RadioButton prepareBtn = new RadioButton("Preparing");
@@ -710,7 +736,7 @@ public class AppView {
                 newStat = OrderStatus.COMPLETE;
                 controller.clearOrder();
                 orderList.clear();
-
+                // if the status is updated to complete the list is cleared
             }
 
             if (!(newStat == null)) {
