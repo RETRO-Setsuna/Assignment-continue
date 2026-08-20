@@ -1,12 +1,7 @@
-
 import java.util.List;
 import java.util.Map;
 
-interface Requirement {
-    boolean satisfaction(String value);
-}
-
-class LogInCredentials {
+abstract class LogInCredentials {
     protected String userTypes;
 
     LogInCredentials(String userTypes) {
@@ -21,13 +16,15 @@ class LogInCredentials {
         this.userTypes = userTypes;
     }
 
+    abstract boolean satisfaction(String value);
+
+    @Override
     public String toString() {
         return userTypes;
     }
-
 }
 
-class Passwords extends LogInCredentials implements Requirement {
+class Passwords extends LogInCredentials {
     static final int minimumLength = 8;
 
     Passwords(String userTypes) {
@@ -51,23 +48,31 @@ class Passwords extends LogInCredentials implements Requirement {
             return true;
         }
     }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
 }
 
 class Usernames extends LogInCredentials {
+    static final int minimumLength = 3;
 
     Usernames(String userTypes) {
         super(userTypes);
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public boolean satisfaction(String value) {
+        if (value.length() >= minimumLength) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean usernameChecker() {
+        if (!satisfaction(userTypes)) {
+            System.out.println("Username must be at least 3 characters");
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
@@ -103,11 +108,14 @@ class ListOfUsers {
     }
 
     public boolean signUp(String userNameInput, String passwordInput) {
-
         Usernames username = new Usernames(userNameInput);
         Passwords password = new Passwords(passwordInput);
 
         if (userExists(userNameInput)) {
+            return false;
+        }
+
+        if (!username.usernameChecker()) {
             return false;
         }
 
@@ -122,14 +130,12 @@ class ListOfUsers {
     }
 
     public boolean signIn(String accountName, String accountPassword) {
-
         for (Users u : listUsers) {
-            if (accountName.equals(u.getName().getUserTypes()) && accountPassword.equals(u.getPass().getUserTypes())) {
-
+            if (accountName.equals(u.getName().getUserTypes())
+                    && accountPassword.equals(u.getPass().getUserTypes())) {
                 return true;
             }
         }
-
         return false;
     }
 

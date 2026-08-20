@@ -16,10 +16,6 @@ public class AppController {
         return model.signUp(username, password);
     }
 
-    public Chocolate searchChocolate(String name) {
-        return model.searchChocolate(name);
-    }
-
     public List<Chocolate> filterByType(Types type) {
         return model.filterByType(type);
     }

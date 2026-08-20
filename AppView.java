@@ -116,7 +116,8 @@ public class AppView {
         view.getChildren().clear();
         view.getChildren().addAll(title, usernameRow, passwordRow, buttonRow, messageLabel, returnBtn);
     }
-//Customer Sign Up
+
+    // Customer Sign Up
     private void createSignUpForm() {
 
         Stage stage = new Stage();
@@ -178,7 +179,7 @@ public class AppView {
     }
 
     // Panel for the staff passcode
-    private void PasscodePanel() {
+    private void passcodePanel() {
 
         Stage stage = new Stage();
         stage.initOwner(primaryStage);
@@ -260,9 +261,9 @@ public class AppView {
                 chocFill, chocotoppings);
         this.chocoView.setItems(model.chocoProperties());
 
-        this.addChcoclate = new Button("Add Chocolate");
+        this.addChocolate = new Button("Add Chocolate");
         // when clicked it would be redirected to AddChocoPanel
-        this.addChcoclate.setOnAction(event -> AddChocPanel());
+        this.addChocolate.setOnAction(event -> addChocPanel());
         this.removeChocolate = new Button("Remove Chocolate");
         // the selected choco would be deleted
         this.removeChocolate.setOnAction(event -> {
@@ -291,7 +292,7 @@ public class AppView {
         HBox buttonRow = new HBox(5, addChocolate, removeChocolate, updateChocolate, changeOrderStatus, logOutBtn);
 
         view.getChildren().clear();
-        view.getChildren().addAll(title, this.chocoView, buttonRow);
+        view.getChildren().addAll(this.chocoView, buttonRow);
 
     }
 
@@ -768,11 +769,11 @@ public class AppView {
         createAndLayoutControls();
     }
 
+    // Customer main menu
     private void showCustomerMainMenu() {
 
         Label title = new Label("Customer Menu");
 
-        Button searchBtn = new Button("Search");
         Button filterBtn = new Button("Filter");
         Button buildChocolateBtn = new Button("Build Chocolate");
         Button addCartBtn = new Button("Add to Cart");
@@ -781,7 +782,7 @@ public class AppView {
         Button logoutBtn = new Button("Log Out");
         Button orderStatusBtn = new Button("Order Status");
 
-        HBox menuRow = new HBox(10, searchBtn, filterBtn, buildChocolateBtn, addCartBtn, cartBtn, orderStatusBtn,
+        HBox menuRow = new HBox(10, filterBtn, buildChocolateBtn, addCartBtn, cartBtn, orderStatusBtn,
                 showAllBtn);
         menuRow.setAlignment(Pos.CENTER);
 
@@ -809,16 +810,17 @@ public class AppView {
             controller.setMemberSignedIn(false);
             showMainMenu();
         });
-        searchBtn.setOnAction(event -> createSearchForm());
+
         showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocoProperties()));
         filterBtn.setOnAction(event -> createFilterForm());
         buildChocolateBtn.setOnAction(event -> createBuildChocolateForm());
         cartBtn.setOnAction(event -> createCartForm());
+
         addCartBtn.setOnAction(event -> {
             Chocolate selectedChocolate = chocolateView.getSelectionModel().getSelectedItem();
 
             if (selectedChocolate != null) {
-                controller.addToCart(selectedChocolate);
+                createQuantityForm(selectedChocolate);
             }
         });
         orderStatusBtn.setOnAction(event -> createOrderStatusForm());
@@ -826,65 +828,79 @@ public class AppView {
         view.getChildren().clear();
         view.getChildren().addAll(title, menuRow, chocolateView, logoutBtn);
     }
+    // asking Quantity
 
-    private void createSearchForm() {
+    private void createQuantityForm(Chocolate chocolate) {
 
         Stage stage = new Stage();
         stage.initOwner(primaryStage);
         stage.initModality(Modality.APPLICATION_MODAL);
 
-        TextField searchField = new TextField();
-        searchField.setPromptText("Enter chocolate name");
+        Label chocolateLabel = new Label("Selected: " + chocolate.getName());
 
-        HBox searchRow = new HBox(5, new Label("Chocolate Name:"), searchField);
-        searchRow.setAlignment(Pos.CENTER);
+        TextField quantityField = new TextField();
+        quantityField.setPromptText("Enter quantity");
 
-        Label addingLabel = new Label("Please enter the exact chocolate name");
-        Label adding2Label = new Label("case-sensitive!! (ex) Dark Chocolate).");
+        HBox quantityRow = new HBox(10,
+                new Label("Quantity:"),
+                quantityField);
+
+        quantityRow.setAlignment(Pos.CENTER);
         Label messageLabel = new Label("");
 
-        Button searchBtn = new Button("Search");
+        Button addBtn = new Button("Add to Cart");
         Button cancelBtn = new Button("Cancel");
 
-        searchBtn.setOnAction(event -> {
-            String name = searchField.getText().trim();
+        addBtn.setOnAction(event -> {
 
-            if (name.isEmpty()) {
-                messageLabel.setText("Please enter a Chocolate name");
-            } else {
-                Chocolate chocolate = controller.searchChocolate(name);
+            String quantityText = quantityField.getText().trim();
 
-                if (chocolate != null) {
-
-                    ObservableList<Chocolate> searchResult = FXCollections.observableArrayList();
-                    searchResult.add(chocolate);
-
-                    chocolateView.setItems(searchResult);
-
-                    createAddCartForm(chocolate);
-
-                    stage.close();
-
-                } else {
-                    messageLabel.setText("Chocolate not found");
-                }
+            if (quantityText.isEmpty()) {
+                messageLabel.setText("Please enter quantity");
+                return;
             }
+
+            try {
+                int quantity = Integer.parseInt(quantityText);
+
+                if (quantity <= 0) {
+                    messageLabel.setText("Quantity must be greater than 0");
+                    return;
+                }
+
+                for (int i = 0; i < quantity; i++) {
+                    controller.addToCart(chocolate);
+                }
+
+                stage.close();
+
+            } catch (NumberFormatException e) {
+                messageLabel.setText("Please enter a whole number");
+            }
+
+            stage.close();
         });
 
         cancelBtn.setOnAction(event -> stage.close());
 
-        HBox buttonRow = new HBox(5, searchBtn, cancelBtn);
+        HBox buttonRow = new HBox(10, addBtn, cancelBtn);
         buttonRow.setAlignment(Pos.CENTER);
 
-        VBox root = new VBox(5, addingLabel, adding2Label, searchRow, messageLabel, buttonRow);
+        VBox root = new VBox(10,
+                chocolateLabel,
+                quantityRow,
+                messageLabel,
+                buttonRow);
+
         root.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(root, 350, 150);
+        Scene scene = new Scene(root, 300, 200);
 
         stage.setScene(scene);
         stage.show();
     }
 
+    // Customer filter
     private void createFilterForm() {
 
         Stage stage = new Stage();
@@ -912,6 +928,7 @@ public class AppView {
         stage.show();
     }
 
+    // filter type
     private void createTypeFilterForm(Stage filterStage) {
 
         Stage stage = new Stage();

@@ -18,9 +18,10 @@ class Inventory {
         chocolateMap.put(c.getProductId(), c);
     }
 
-    void addChocolate(String id, String name, double price, Size size, Sweetness sweetness, Types type,Fillings filling, Toppings topping) {
+    void addChocolate(String id, String name, double price, Size size, Sweetness sweetness, Types type,
+            Fillings filling, Toppings topping) {
 
-        Chocolate c = new NormalChocolate(id, name, price, size, sweetness, type,
+        Chocolate c = new Chocolate(id, name, price, size, sweetness, type,
                 filling, topping);
 
         chocolates.add(c);
@@ -29,16 +30,6 @@ class Inventory {
 
     boolean productIdExists(String productId) {
         return chocolateMap.containsKey(productId);
-    }
-
-    boolean chocolateNameExists(String name) {
-        for (Chocolate chocolate : chocolates) {
-            if (chocolate.getName().equals(name)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     void displayChocolate() {
@@ -56,18 +47,6 @@ class Inventory {
 
     Chocolate searchChocolateById(String productId) {
         return chocolateMap.get(productId);
-    }
-
-    Chocolate searchChocolateByName(String name) {
-
-        for (Chocolate chocolate : chocolates) {
-
-            if (chocolate.getName().equals(name)) {
-                return chocolate;
-            }
-        }
-
-        return null;
     }
 
     List<Chocolate> getChocolates() {

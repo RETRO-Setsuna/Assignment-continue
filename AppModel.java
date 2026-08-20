@@ -59,10 +59,6 @@ public class AppModel {
         return users.signUp(username, password);
     }
 
-    public Chocolate searchChocolate(String name) {
-        return inventory.searchChocolateByName(name);
-    }
-
     public List<Chocolate> filterByType(Types type) {
         return inventory.filterByType(type);
     }
@@ -94,7 +90,7 @@ public class AppModel {
 
         String productId = "CB-" + name;
 
-        Chocolate chocolate = new CustomChocolate(
+        Chocolate chocolate = new Chocolate(
                 productId, name, price, size, sweetness, type, filling, topping);
 
         shopping.addToCart(chocolate);
