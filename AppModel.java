@@ -157,7 +157,10 @@ public class AppModel {
 
     // removes a specific chocolate
     public void removeChoc(int index) {
-        this.chocolates.remove(index);
+
+        Chocolate chocolate = chocolates.get(index);
+        inventory.removeChocolate(chocolate.getProductId());
+        chocolates.remove(index);
     }
 
     // clears all chocolates in a list

@@ -308,7 +308,7 @@ public class AppView {
         HBox buttonRow = new HBox(5, addChocolate, removeChocolate, updateChocolate, changeOrderStatus, logOutBtn);
 
         view.getChildren().clear();
-        view.getChildren().addAll(this.chocoView, buttonRow);
+        view.getChildren().addAll(title, this.chocoView, buttonRow);
 
     }
 
@@ -845,7 +845,7 @@ public class AppView {
         view.getChildren().addAll(title, menuRow, chocolateView, logoutBtn);
     }
 
-    // asking Quantity
+    // asking chocolate's Quantity
     private void createQuantityForm(Chocolate chocolate) {
 
         Stage stage = new Stage();
@@ -893,8 +893,6 @@ public class AppView {
             } catch (NumberFormatException e) {
                 messageLabel.setText("Please enter a whole number");
             }
-
-            stage.close();
         });
 
         cancelBtn.setOnAction(event -> stage.close());
@@ -1014,6 +1012,7 @@ public class AppView {
         stage.show();
     }
 
+    // filter size
     private void createSizeFilterForm(Stage filterStage) {
 
         Stage stage = new Stage();
@@ -1085,6 +1084,7 @@ public class AppView {
         stage.show();
     }
 
+    // filter sweetness
     private void createSweetnessFilterForm(Stage filterStage) {
 
         Stage stage = new Stage();
@@ -1490,7 +1490,6 @@ public class AppView {
         stage.initModality(Modality.APPLICATION_MODAL);
 
         Label title = new Label("My Cart");
-        Label totalLabel = new Label("Total: $ " + controller.calculateTotal());
 
         TableView<Chocolate> cartView = new TableView<>();
 
@@ -1558,35 +1557,6 @@ public class AppView {
 
         Scene scene = new Scene(root, 250, 120);
 
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private void createAddCartForm(Chocolate chocolate) {
-
-        Stage stage = new Stage();
-        stage.initOwner(primaryStage);
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        Label messageLabel = new Label("Do you want to add this chocolate to your cart?");
-
-        Button yesBtn = new Button("Yes");
-        Button noBtn = new Button("No");
-
-        yesBtn.setOnAction(event -> {
-            controller.addToCart(chocolate);
-            stage.close();
-        });
-
-        noBtn.setOnAction(event -> stage.close());
-
-        HBox buttonRow = new HBox(10, yesBtn, noBtn);
-        buttonRow.setAlignment(Pos.CENTER);
-
-        VBox root = new VBox(10, messageLabel, buttonRow);
-        root.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(root, 350, 120);
         stage.setScene(scene);
         stage.show();
     }

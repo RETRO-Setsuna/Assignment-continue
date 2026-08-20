@@ -46,7 +46,6 @@ class Shopping {
 
         double originalTotal = calculateTotal();
         double total = originalTotal;
-        double discount = 0;
 
         if (memberSignedIn) {
             total = 0;
@@ -55,7 +54,6 @@ class Shopping {
                 total = total + chocolate.calculateDiscountPrice();
             }
 
-            discount = originalTotal - total;
         }
 
         orderStatus = OrderStatus.PENDING;
