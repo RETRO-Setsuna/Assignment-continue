@@ -34,7 +34,6 @@ public class AppView {
     private Button addChocolate;
     private Button removeChocolate;
     private Button updateChocolate;
-    private Button removeAllChocolate;
     private Button changeOrderStatus;
     private Button logOutBtn;
 
@@ -58,7 +57,7 @@ public class AppView {
 
     private void createAndLayoutControls() {
 
-        Label title = new Label("Welcome to HD Choco Shop!!!!");
+        Label title = new Label("Welcome to HD Chocolate Shop!!!!");
 
         customerBtn = new Button("Customer");
         staffBtn = new Button("Staff");
@@ -213,7 +212,7 @@ public class AppView {
             showMainMenu();
         });
 
-        VBox root = new VBox(5, passcodeRow, buttonRow);
+        VBox root = new VBox(5, msgLabel, passcodeRow, buttonRow);
         root.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(root, 350, 180);
@@ -225,30 +224,30 @@ public class AppView {
 
     private void staffPanel() {
         this.chocoView = new TableView<>();
-
-        TableColumn<Chocolate, String> chocoName = new TableColumn<>("Chocolate Name");
+        Label title = new Label("Staff Inventory");
+        TableColumn<Chocolate, String> chocoName = new TableColumn<>("Name");
         chocoName.setMinWidth(200.0);
         chocoName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
-        TableColumn<Chocolate, String> chocoID = new TableColumn<>("Product ID");
+        TableColumn<Chocolate, String> chocoID = new TableColumn<>("ID");
         chocoID.setCellValueFactory(cellData -> cellData.getValue().productIDProperty());
 
         TableColumn<Chocolate, Double> chocoPrice = new TableColumn<>("Price");
         chocoPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
 
-        TableColumn<Chocolate, Size> chocSize = new TableColumn<>("Chocolate Size");
+        TableColumn<Chocolate, Size> chocSize = new TableColumn<>("Size");
         chocSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
 
-        TableColumn<Chocolate, Types> chocoType = new TableColumn<>("Chocolate Type");
+        TableColumn<Chocolate, Types> chocoType = new TableColumn<>("Type");
         chocoType.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
 
-        TableColumn<Chocolate, Toppings> chocotoppings = new TableColumn<>("Toppings");
+        TableColumn<Chocolate, Toppings> chocotoppings = new TableColumn<>("Topping");
         chocotoppings.setCellValueFactory(cellData -> cellData.getValue().toppingProperty());
 
-        TableColumn<Chocolate, Sweetness> chocoSweetnesses = new TableColumn<>("sweetnessesness");
+        TableColumn<Chocolate, Sweetness> chocoSweetnesses = new TableColumn<>("Sweetnessesness");
         chocoSweetnesses.setCellValueFactory(cellData -> cellData.getValue().sweetProperty());
 
-        TableColumn<Chocolate, Fillings> chocFill = new TableColumn<>("Fillings");
+        TableColumn<Chocolate, Fillings> chocFill = new TableColumn<>("Filling");
         chocFill.setCellValueFactory(cellData -> cellData.getValue().fillProperty());
 
         this.chocoView.getColumns().addAll(chocoName, chocoID, chocoPrice, chocSize, chocoType, chocoSweetnesses,
@@ -282,7 +281,7 @@ public class AppView {
         HBox buttonRow = new HBox(5, addChocolate, removeChocolate, updateChocolate, changeOrderStatus, logOutBtn);
 
         view.getChildren().clear();
-        view.getChildren().addAll(this.chocoView, buttonRow);
+        view.getChildren().addAll(title, this.chocoView, buttonRow);
 
     }
 
@@ -662,7 +661,7 @@ public class AppView {
         stage.initModality(Modality.APPLICATION_MODAL);
 
         Label title = new Label("Customer Order Status");
-        Label statusLabel = new Label("" + controller.getOrderStatus());
+        Label statusLabel = new Label("Status: " + controller.getOrderStatus());
         Label messageLabel = new Label("");
         Button updateBtn = new Button("Update Status");
         Button closeBtn = new Button("Close");
@@ -670,7 +669,7 @@ public class AppView {
         TableView<Chocolate> orderView = new TableView<>();
 
         TableColumn<Chocolate, String> nameCol = new TableColumn<>("Name");
-        TableColumn<Chocolate, String> idCol = new TableColumn<>("Product ID");
+        TableColumn<Chocolate, String> idCol = new TableColumn<>("ID");
         TableColumn<Chocolate, String> priceCol = new TableColumn<>("Price");
         TableColumn<Chocolate, OrderStatus> statusCol = new TableColumn<>("Status");
 
