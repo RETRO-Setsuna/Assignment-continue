@@ -1,6 +1,6 @@
 import java.util.List;
 
-//connects the view to model allowing the funtions in the model to be used in view
+//2. connects the view to model allowing the funtions in the model to be used in view
 public class AppController {
     private AppModel model;
 
@@ -8,6 +8,8 @@ public class AppController {
         this.model = model;
     }
 
+    // 5. the controller communicates the users input to the model upon clicking the
+    // buttons
     public boolean signIn(String username, String password) {
         return model.signIn(username, password);
     }
@@ -32,6 +34,9 @@ public class AppController {
         return model.filterBySweetness(sweetness);
     }
 
+    // 9. collects all of the user's input for the customized chocolate and calls
+    // model's buildChocolate to communicate with the model allowing to interacte
+    // with the method and register the user's request and input
     public void buildChocolate(String name, Types type, Size size, Sweetness sweetness,
             Fillings filling, Toppings topping) {
         model.buildChocolate(name, type, size, sweetness, filling, topping);

@@ -2,6 +2,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+//enums for all chocolate choices
 enum Size {
     S, M, L, XL;
 }
