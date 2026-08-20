@@ -124,6 +124,7 @@ public class AppModel {
         return shopping.getCurrentOrder();
     }
 
+    // returns the order status of the orders
     public OrderStatus getOrderStatus() {
         return shopping.getOrderStatus();
     }
@@ -146,20 +147,17 @@ public class AppModel {
         this.chocolates.set(index, c);
     }
 
+    // removes a specific chocolate
     public void removeChoc(int index) {
         this.chocolates.remove(index);
     }
 
-    public void removeAll() {
-        for (int i = chocolates.size() - 1; i >= 0; i--) {
-            this.chocolates.remove(i);
-        }
-    }
-
+    // clears all chocolates in a list
     public void clearOrder() {
         shopping.clearOrder();
     }
 
+    // gets access to change the status
     public void updateOrderStatus(OrderStatus status) {
         shopping.staffUpdateStatus(status);
     }

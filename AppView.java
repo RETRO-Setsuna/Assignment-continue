@@ -738,7 +738,7 @@ public class AppView {
                 newStat = OrderStatus.COMPLETE;
                 controller.clearOrder();
                 orderList.clear();
-
+                // if the status is updated to complete the list is cleared
             }
 
             if (!(newStat == null)) {
