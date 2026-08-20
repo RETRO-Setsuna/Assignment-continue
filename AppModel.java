@@ -33,10 +33,6 @@ public class AppModel {
         return shopping;
     }
 
-    public ObservableList<Chocolate> chocolatesProperty() {
-        return chocolates;
-    }
-
     public void addChocolate(Chocolate chocolate) {
         inventory.addChocolate(chocolate);
         chocolates.add(chocolate);
@@ -155,7 +151,7 @@ public class AppModel {
     }
 
     public void removeAll() {
-        for (int i = chocolates.size() - 1; i > 0; i--) {
+        for (int i = chocolates.size() - 1; i >= 0; i--) {
             this.chocolates.remove(i);
         }
     }

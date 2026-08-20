@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.animation.Animation.Status;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,12 +31,12 @@ public class AppView {
     private TableView<Chocolate> chocolateView;
 
     public TableView<Chocolate> chocoView;
-    private Button addChcoclate;
+    private Button addChocolate;
     private Button removeChocolate;
     private Button updateChocolate;
-    private Button removeAllCHocolate;
+    private Button removeAllChocolate;
     private Button changeOrderStatus;
-    private Button logerBtn;
+    private Button logOutBtn;
 
     public AppView(AppController controller, AppModel model, Stage primaryStage) {
         this.controller = controller;
@@ -66,7 +65,7 @@ public class AppView {
         exitBtn = new Button("Exit");
 
         customerBtn.setOnAction(event -> showCustomerMenu());
-        staffBtn.setOnAction(event -> PasscodePanel());
+        staffBtn.setOnAction(event -> passcodePanel());
         exitBtn.setOnAction(event -> primaryStage.close());
 
         view.getChildren().clear();
@@ -257,7 +256,7 @@ public class AppView {
         TableColumn<Chocolate, Fillings> chocFill = new TableColumn<>("Fillings");
         chocFill.setCellValueFactory(cellData -> cellData.getValue().fillProperty());
 
-        this.chocoView.getColumns().addAll(chocoName, chocoID, chocoPrice, chocSize, chocoType, chocosweetnesses,
+        this.chocoView.getColumns().addAll(chocoName, chocoID, chocoPrice, chocSize, chocoType, chocoSweetnesses,
                 chocFill, chocotoppings);
         this.chocoView.setItems(model.chocoProperties());
 
@@ -283,20 +282,20 @@ public class AppView {
         this.changeOrderStatus = new Button("Update Customer Order Status");
         // when clicked it would open a staffOrderStatus
         this.changeOrderStatus.setOnAction(event -> staffOrderStatus());
-        this.logerBtn = new Button("Log Out");
-        this.logerBtn.setOnAction(event -> {
+        this.logOutBtn = new Button("Log Out");
+        this.logOutBtn.setOnAction(event -> {
             view.getChildren().clear();
             createAndLayoutControls();
         });
 
-        HBox buttonRow = new HBox(5, addChcoclate, removeChocolate, updateChocolate, changeOrderStatus, logerBtn);
+        HBox buttonRow = new HBox(5, addChocolate, removeChocolate, updateChocolate, changeOrderStatus, logOutBtn);
 
         view.getChildren().clear();
         view.getChildren().addAll(this.chocoView, buttonRow);
 
     }
 
-    private void AddChocPanel() {
+    private void addChocPanel() {
         Stage stage = new Stage();
         stage.initOwner(primaryStage);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -660,7 +659,7 @@ public class AppView {
             // also automatically closes thje window when finished
             if (changeSize || changeType || changeSweetness || changeFilling || changeTopping
                     || newNameIDAndPriceNotEmpty) {
-                Chocolate c = new Chocolate(id, oldName, price, newSize, newSweetness, newTypes, newFillings,
+                Chocolate c = new Chocolate(id, name, price, newSize, newSweetness, newTypes, newFillings,
                         newToppings);
                 controller.updateChoco(c, index);
                 stage.close();
@@ -687,8 +686,8 @@ public class AppView {
         stage.initModality(Modality.APPLICATION_MODAL);
 
         Label title = new Label("Customer Order Status");
-        Label StatusLebel = new Label("" + controller.getOrderStatus());
-        Label massgaeLabel = new Label("");
+        Label statusLabel = new Label("" + controller.getOrderStatus());
+        Label messageLabel = new Label("");
         Button updateBtn = new Button("Update Status");
         Button closeBtn = new Button("Close");
 
@@ -744,8 +743,8 @@ public class AppView {
 
             if (!(newStat == null)) {
                 controller.updateOrderStatus(newStat);
-                StatusLebel.setText("" + controller.getOrderStatus());
-                massgaeLabel.setText("Status Updated");
+                statusLabel.setText("" + controller.getOrderStatus());
+                messageLabel.setText("Status Updated");
             }
             stage.close();
 
@@ -755,8 +754,8 @@ public class AppView {
 
         HBox buttonRow = new HBox(5, updateBtn, closeBtn);
 
-        VBox root = new VBox(5, title, orderView, StatusLebel, confirmedBtn, prepareBtn, readyBtn, deliveryBtn,
-                completeBtn, massgaeLabel, buttonRow);
+        VBox root = new VBox(5, title, orderView, statusLabel, confirmedBtn, prepareBtn, readyBtn, deliveryBtn,
+                completeBtn, messageLabel, buttonRow);
         root.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(root, 500, 500);
@@ -766,19 +765,7 @@ public class AppView {
     }
 
     private void showMainMenu() {
-
-        Label title = new Label("Welcome to HD Choco Shop!!!!");
-
-        customerBtn = new Button("Customer");
-        staffBtn = new Button("Staff");
-        exitBtn = new Button("Exit");
-
-        customerBtn.setOnAction(event -> showCustomerMenu());
-        staffBtn.setOnAction(event -> PasscodePanel());
-        exitBtn.setOnAction(event -> primaryStage.close());
-
-        view.getChildren().clear();
-        view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
+        createAndLayoutControls();
     }
 
     private void showCustomerMainMenu() {
@@ -799,7 +786,7 @@ public class AppView {
         menuRow.setAlignment(Pos.CENTER);
 
         chocolateView = new TableView<>();
-        chocolateView.setItems(model.chocolatesProperty());
+        chocolateView.setItems(model.chocoProperties());
 
         TableColumn<Chocolate, String> idCol = new TableColumn<>("ID");
         TableColumn<Chocolate, String> nameCol = new TableColumn<>("Name");
@@ -823,7 +810,7 @@ public class AppView {
             showMainMenu();
         });
         searchBtn.setOnAction(event -> createSearchForm());
-        showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocolatesProperty()));
+        showAllBtn.setOnAction(event -> chocolateView.setItems(model.chocoProperties()));
         filterBtn.setOnAction(event -> createFilterForm());
         buildChocolateBtn.setOnAction(event -> createBuildChocolateForm());
         cartBtn.setOnAction(event -> createCartForm());
