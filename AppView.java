@@ -738,19 +738,7 @@ public class AppView {
     }
 
     private void showMainMenu() {
-
-        Label title = new Label("Welcome to HD Choco Shop!!!!");
-
-        customerBtn = new Button("Customer");
-        staffBtn = new Button("Staff");
-        exitBtn = new Button("Exit");
-
-        customerBtn.setOnAction(event -> showCustomerMenu());
-        staffBtn.setOnAction(event -> passcodePanel());
-        exitBtn.setOnAction(event -> primaryStage.close());
-
-        view.getChildren().clear();
-        view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
+        createAndLayoutControls();
     }
 
     private void showCustomerMainMenu() {
