@@ -46,7 +46,11 @@ enum OrderStatus {
 
 }
 
-class Chocolate {
+interface Discountable {
+    double calculateDiscountPrice();
+}
+
+class Chocolate implements Discountable {
 
     private final SimpleStringProperty chocName;
     private final SimpleStringProperty chocID;
@@ -171,6 +175,11 @@ class Chocolate {
         System.out.println("Sweetness: " + chocSweet.getValue().getPercentage() + "%");
         System.out.println("Filling: " + chocFill);
         System.out.println("Topping: " + chocTops);
+    }
+
+    @Override
+    public double calculateDiscountPrice() {
+        return getPrice() * 0.9;
     }
 
     @Override

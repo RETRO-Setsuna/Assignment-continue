@@ -34,8 +34,8 @@ public class AppController {
     // model's buildChocolate to communicate with the model allowing to interacte
     // with the method and register the user's request and input
     public void buildChocolate(String name, Types type, Size size, Sweetness sweetness,
-            Fillings filling, Toppings topping) {
-        model.buildChocolate(name, type, size, sweetness, filling, topping);
+            Fillings filling, Toppings topping, int quantity) {
+        model.buildChocolate(name, type, size, sweetness, filling, topping, quantity);
     }
 
     public List<Chocolate> getCart() {

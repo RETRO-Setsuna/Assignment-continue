@@ -74,7 +74,7 @@ public class AppView {
         view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
     }
 
-    // Customer Me  nu
+    // Customer Me nu
     // 2. once when users arrive at the show Customer menu and users have the
     // ability to sign in or if they dont have a account they have the abilty to
     // create an account by pressing the Sign upbutton where it would be redirected
@@ -785,6 +785,7 @@ public class AppView {
         createAndLayoutControls();
     }
 
+    // Customer Menu
     private void showCustomerMainMenu() {
 
         Label title = new Label("Customer Menu");
@@ -843,8 +844,8 @@ public class AppView {
         view.getChildren().clear();
         view.getChildren().addAll(title, menuRow, chocolateView, logoutBtn);
     }
-    // asking Quantity
 
+    // asking Quantity
     private void createQuantityForm(Chocolate chocolate) {
 
         Stage stage = new Stage();
@@ -1272,6 +1273,12 @@ public class AppView {
         HBox toppingRow = new HBox(5, new Label("Topping:"), noToppingBtn, fruitToppingBtn, oreoBtn, candyBtn,
                 extraChocolateBtn);
         toppingRow.setAlignment(Pos.CENTER);
+        // quantity
+        TextField quantityField = new TextField();
+        quantityField.setPromptText("Enter quantity");
+
+        HBox quantityRow = new HBox(5, new Label("Quantity:"), quantityField);
+        quantityRow.setAlignment(Pos.CENTER);
 
         Label messageLabel = new Label("");
 
@@ -1351,7 +1358,22 @@ public class AppView {
                 messageLabel.setText("Please complete all options");
 
             } else {
-                controller.buildChocolate(name, type, size, sweetness, filling, topping);
+                String quantityText = quantityField.getText().trim();
+                int quantity;
+
+                try {
+                    quantity = Integer.parseInt(quantityText);
+                } catch (NumberFormatException e) {
+                    messageLabel.setText("Please enter a whole number for quantity");
+                    return;
+                }
+
+                if (quantity <= 0) {
+                    messageLabel.setText("Quantity must be greater than 0");
+                    return;
+                }
+
+                controller.buildChocolate(name, type, size, sweetness, filling, topping, quantity);
                 messageLabel.setText("Chocolate added to cart");
             }
         });
@@ -1361,8 +1383,8 @@ public class AppView {
         HBox buttonRow = new HBox(5, addBtn, cancelBtn);
         buttonRow.setAlignment(Pos.CENTER);
 
-        VBox root = new VBox(10, title, nameRow, typeRow, sizeRow, sweetnessRow, fillingRow, toppingRow, messageLabel,
-                buttonRow);
+        VBox root = new VBox(10, title, nameRow, typeRow, sizeRow, sweetnessRow, fillingRow, toppingRow, quantityRow,
+                messageLabel, buttonRow);
         root.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(root, 650, 350);

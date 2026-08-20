@@ -77,11 +77,12 @@ public class AppModel {
 
     // 10. buildChocolate utilises the chocolate building method in the chocolate
     // object class, with if statment it would modify the prices of the chocolate by
-    // adding addition costs. and after the chocolate is created it would than be
-    // aadded to the cart where the user can close the winder whjen done and visit
+    // adding addition costs. Also can choose the quantity of it and after the
+    // chocolate is created it would than be
+    // aadded to the cart where the user can close the winder when done and visit
     // the cart
     public void buildChocolate(String name, Types type, Size size, Sweetness sweetness,
-            Fillings filling, Toppings topping) {
+            Fillings filling, Toppings topping, int quantity) {
 
         double price = 10.00;
 
@@ -102,7 +103,9 @@ public class AppModel {
         Chocolate chocolate = new Chocolate(
                 productId, name, price, size, sweetness, type, filling, topping);
 
-        shopping.addToCart(chocolate);
+        for (int i = 0; i < quantity; i++) {
+            shopping.addToCart(chocolate);
+        }
     }
 
     public List<Chocolate> getCart() {
