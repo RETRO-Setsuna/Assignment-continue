@@ -55,6 +55,9 @@ public class AppView {
         view.setAlignment(Pos.CENTER);
     }
 
+    // creates the first window and allows the selection of staff or customer
+    // 1. user interactes with the create and Layout by selecting the button for
+    // Customers where upon clicking it would redirect users to the Sign in form
     private void createAndLayoutControls() {
 
         Label title = new Label("Welcome to HD Chocolate Shop!!!!");
@@ -71,7 +74,12 @@ public class AppView {
         view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
     }
 
-    // Customer Menu
+    // Customer Me  nu
+    // 2. once when users arrive at the show Customer menu and users have the
+    // ability to sign in or if they dont have a account they have the abilty to
+    // create an account by pressing the Sign upbutton where it would be redirected
+    // to the CreatesSignUpForm
+
     private void showCustomerMenu() {
 
         Label title = new Label("Customer Sign In");
@@ -98,7 +106,8 @@ public class AppView {
         Label messageLabel = new Label("");
 
         loginBtn.setOnAction(event -> {
-            // get Login details entered by the customer
+            // 4. when the user enters their username and pass word it would checks it with
+            // the sign in method
             String username = usernameField.getText();
             String password = passwordField.getText();
 
@@ -118,6 +127,12 @@ public class AppView {
     }
 
     // Customer Sign Up
+    // 3. when here a wind would pop up, the user would start to fill up the 3
+    // fields, Username, Password and the reconfirming Password and once when the
+    // user finishes fillinf out the form and presses Create aaccount the account
+    // would be created and saved to a list of users and it would display Account
+    // Created sucessfully if everything is done correctly and the user would be
+    // able to close the window and go back to the SignInForm
     private void createSignUpForm() {
 
         Stage stage = new Stage();
@@ -230,6 +245,7 @@ public class AppView {
 
     // the actual staff panel
     private void staffPanel() {
+        Label title = new Label("Staff Menu");
         this.chocoView = new TableView<>();
 
         TableColumn<Chocolate, String> chocoName = new TableColumn<>("Chocolate Name");
@@ -769,7 +785,6 @@ public class AppView {
         createAndLayoutControls();
     }
 
-    // Customer main menu
     private void showCustomerMainMenu() {
 
         Label title = new Label("Customer Menu");
@@ -1145,6 +1160,12 @@ public class AppView {
         stage.show();
     }
 
+    // 7. when users clicks build chocolate in the customer menu, a window pops up
+    // with a form where the user can make a specific name, a specific type of
+    // chocolate between white, milk and dark, a size of the chocolate from small,
+    // medium, large and X-large, the sweetness of the chocolate itself from 0, 25,
+    // 50 75 and 100, the filling inside the chocolate and the toping of the
+    // chocolate from a selection of choice
     private void createBuildChocolateForm() {
 
         Stage stage = new Stage();
@@ -1259,6 +1280,9 @@ public class AppView {
 
         addBtn.setOnAction(event -> {
 
+            // 8. when the user finishes to fill out everything they would like and clickes
+            // add to cart, it would initialise the controler with the buildChocolate method
+            // in order to process the user's chocolate
             String name = nameField.getText().trim();
 
             Types type = null;
@@ -1347,6 +1371,10 @@ public class AppView {
         stage.show();
     }
 
+    // 12. when the user selects check out a new window and the user can select pay
+    // by cash card or bank transfer as the delivery method either by delivery or
+    // pickup and once when the methods are chosen, the weindow and the checkout
+    // window would close automatic a successcheckoutfrom is shown
     private void createCheckoutForm(Stage cartStage) {
 
         Stage stage = new Stage();
@@ -1429,6 +1457,10 @@ public class AppView {
         stage.show();
     }
 
+    // 11. when the user selects "my Cart" it would open a window displaying a list
+    // of chocolates that the users had added to their cart with opens of closing
+    // the cart, removing a chocolate if they change their mind or go straight to
+    // checkout when the user finishea adding chocolate to cart
     private void createCartForm() {
 
         Stage stage = new Stage();
@@ -1487,6 +1519,7 @@ public class AppView {
         stage.show();
     }
 
+    // 13. this window would show up once when the checkout is successful.
     private void createCheckoutSuccessForm() {
 
         Stage stage = new Stage();
@@ -1536,6 +1569,7 @@ public class AppView {
         stage.show();
     }
 
+    // displays the order status tooward the customer
     private void createOrderStatusForm() {
 
         Stage stage = new Stage();
