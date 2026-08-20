@@ -71,6 +71,7 @@ public class AppView {
         view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
     }
 
+    // Customer Menu
     private void showCustomerMenu() {
 
         Label title = new Label("Customer Sign In");
@@ -97,6 +98,7 @@ public class AppView {
         Label messageLabel = new Label("");
 
         loginBtn.setOnAction(event -> {
+            // get Login details entered by the customer
             String username = usernameField.getText();
             String password = passwordField.getText();
 
@@ -114,7 +116,7 @@ public class AppView {
         view.getChildren().clear();
         view.getChildren().addAll(title, usernameRow, passwordRow, buttonRow, messageLabel, returnBtn);
     }
-
+//Customer Sign Up
     private void createSignUpForm() {
 
         Stage stage = new Stage();
