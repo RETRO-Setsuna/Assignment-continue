@@ -74,7 +74,7 @@ public class AppView {
         view.getChildren().addAll(title, customerBtn, staffBtn, exitBtn);
     }
 
-    // Customer Me nu
+    // Customer Menu
     // 2. once when users arrive at the show Customer menu and users have the
     // ability to sign in or if they dont have a account they have the abilty to
     // create an account by pressing the Sign upbutton where it would be redirected
@@ -786,6 +786,12 @@ public class AppView {
     }
 
     // Customer Menu
+    // 7. b The controller fetches the answer and hand it over the the view where it
+    // checks if its true if true it would be redirects to the customer main menu
+    // where it displays a table of chocolate a bunch of buttons for the users to
+    // chosee from such ass fliter for a ch9ocolate, add a chocolate to cart, build
+    // a unqiue chocolate, show the cart, display all chocolates and viewing their
+    // order status if they have oordered something else there is a log out buttons
     private void showCustomerMainMenu() {
 
         Label title = new Label("Customer Menu");
@@ -1161,7 +1167,7 @@ public class AppView {
         stage.show();
     }
 
-    // 7. when users clicks build chocolate in the customer menu, a window pops up
+    // 8. when users clicks build chocolate in the customer menu, a window pops up
     // with a form where the user can make a specific name, a specific type of
     // chocolate between white, milk and dark, a size of the chocolate from small,
     // medium, large and X-large, the sweetness of the chocolate itself from 0, 25,
@@ -1287,7 +1293,7 @@ public class AppView {
 
         addBtn.setOnAction(event -> {
 
-            // 8. when the user finishes to fill out everything they would like and clickes
+            // 9. when the user finishes to fill out everything they would like and clickes
             // add to cart, it would initialise the controler with the buildChocolate method
             // in order to process the user's chocolate
             String name = nameField.getText().trim();
@@ -1393,7 +1399,7 @@ public class AppView {
         stage.show();
     }
 
-    // 12. when the user selects check out a new window and the user can select pay
+    // 13. when the user selects check out a new window and the user can select pay
     // by cash card or bank transfer as the delivery method either by delivery or
     // pickup and once when the methods are chosen, the weindow and the checkout
     // window would close automatic a successcheckoutfrom is shown
@@ -1479,7 +1485,7 @@ public class AppView {
         stage.show();
     }
 
-    // 11. when the user selects "my Cart" it would open a window displaying a list
+    // 12. when the user selects "my Cart" it would open a window displaying a list
     // of chocolates that the users had added to their cart with opens of closing
     // the cart, removing a chocolate if they change their mind or go straight to
     // checkout when the user finishea adding chocolate to cart
@@ -1540,7 +1546,7 @@ public class AppView {
         stage.show();
     }
 
-    // 13. this window would show up once when the checkout is successful.
+    // 14. this window would show up once when the checkout is successful.
     private void createCheckoutSuccessForm() {
 
         Stage stage = new Stage();

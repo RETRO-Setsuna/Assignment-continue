@@ -30,7 +30,7 @@ public class AppController {
         return model.filterBySweetness(sweetness);
     }
 
-    // 9. collects all of the user's input for the customized chocolate and calls
+    // 10. collects all of the user's input for the customized chocolate and calls
     // model's buildChocolate to communicate with the model allowing to interacte
     // with the method and register the user's request and input
     public void buildChocolate(String name, Types type, Size size, Sweetness sweetness,

@@ -43,7 +43,7 @@ public class AppModel {
         return memberSignedIn;
     }
 
-    // 5. it grabs the signin method from the class oobject oof sign in and check
+    // 6. it grabs the signin method from the class oobject oof sign in and check
     // its if it exist or not if it does exist than it would return true allowing
     // the user to move on, else it would return false
     public boolean signIn(String username, String password) {
@@ -75,7 +75,7 @@ public class AppModel {
         return inventory.filterBySweetness(sweetness);
     }
 
-    // 10. buildChocolate utilises the chocolate building method in the chocolate
+    // 11. buildChocolate utilises the chocolate building method in the chocolate
     // object class, with if statment it would modify the prices of the chocolate by
     // adding addition costs. Also can choose the quantity of it and after the
     // chocolate is created it would than be
