@@ -5,7 +5,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-//1. retrives all class object needed from the different files and turns them into attributes for the AppModel to handle
+//retrives all class object needed from the different files and turns them into attributes for the AppModel to handle
 public class AppModel {
 
     private Inventory inventory;
