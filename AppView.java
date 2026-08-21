@@ -267,7 +267,7 @@ public class AppView {
         TableColumn<Chocolate, Toppings> chocotoppings = new TableColumn<>("Toppings");
         chocotoppings.setCellValueFactory(cellData -> cellData.getValue().toppingProperty());
 
-        TableColumn<Chocolate, Sweetness> chocoSweetnesses = new TableColumn<>("sweetnessesness");
+        TableColumn<Chocolate, Sweetness> chocoSweetnesses = new TableColumn<>("Sweetness");
         chocoSweetnesses.setCellValueFactory(cellData -> cellData.getValue().sweetProperty());
 
         TableColumn<Chocolate, Fillings> chocFill = new TableColumn<>("Filling");
